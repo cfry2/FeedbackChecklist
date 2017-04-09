@@ -1,7 +1,7 @@
 {
-  "name": "character-activity-feed",
+  "name": "feedback-checklist",
   "version": "1.0.0",
-  "description": "small personal project to teach myself react/redux. Makes use of Blizzard's API to create an activity feed for my characters in wow",
+  "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -40,6 +40,8 @@
     "file-loader": "^0.10.1",
     "node-sass": "^4.5.0",
     "postcss-loader": "^1.3.3",
+    "redux-devtools-extension": "^2.13.0",
+    "remote-redux-devtools": "^0.5.7",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.2",
     "webpack": "^2.2.1",

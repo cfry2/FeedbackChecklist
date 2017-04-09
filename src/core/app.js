@@ -6,6 +6,8 @@ import { Router, Route, browserHistory, IndexRoute, Switch } from 'react-router'
 import thunk from 'redux-thunk';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 import Page from 'core/containers/page'
 import LandingPage from 'core/containers/LandingPage/LandingPage'
 //import reducers here
@@ -18,12 +20,14 @@ export default class App {
         this.reducers = reducers;
         this.store = this.setUpStore();
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
+        console.log(this.store);
         this.render();
         //this.store.dispatch(actions.requestData());
     }
 
     setUpStore() {
-        return createStore(this.reducers, initialState, compose(applyMiddleware(thunk)));
+        
+        return createStore(this.reducers, initialState, composeWithDevTools(applyMiddleware(thunk)));
     }
 
     render() {
@@ -34,7 +38,6 @@ export default class App {
                         <Route exact path="/" component={LandingPage}/>
                     </Router>
                 </Provider>
-                Content below
             </div>, this.element
         );
     }

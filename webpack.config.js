@@ -36,6 +36,9 @@ module.exports = {
     },
     plugins: (
         dev ? ([
+            new webpack.DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify('development')
+            }),
             new ExtractTextPlugin('style.css'),
             new webpack.LoaderOptionsPlugin({
                 options: {

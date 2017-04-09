@@ -1,10 +1,12 @@
 import React, { PropTypes, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import CheckList from 'core/components/checklist/CheckList';
+import AddItem from 'core/components/checklist/AddItem';
 //import styles from './LandingPage.scss';
 //import withStyles from '../../common/decorators/withStyles';
 
-export default class LandingPage extends Component {
+export class LandingPage extends Component {
 
  /* static contextTypes = {
     onSetTitle: PropTypes.func.isRequired
@@ -16,25 +18,12 @@ export default class LandingPage extends Component {
 
     return (
       <div className='LandingPage'>
-        <div className='LandingPage-container'>
-          <h1>{title}</h1>
-          <p>Collaboratively administrate empowered markets via plug-and-play
-            networks. Dynamically procrastinate B2C users after installed base
-            benefits. Dramatically visualize customer directed convergence
-            without revolutionary ROI.</p>
-          <br />
-          <p>Efficiently unleash cross-media information without cross-media
-            value. Quickly maximize timely deliverables for real-time schemas.
-            Dramatically maintain clicks-and-mortar solutions without functional
-            solutions.</p>
-          <br />
-          <p>Completely synergize resource taxing relationships via premier
-            niche markets. Professionally cultivate one-to-one customer service
-            with robust ideas. Dynamically innovate resource-leveling customer
-            service for state of the art customer service.</p>
-        </div>
+          <CheckList />
+          <AddItem />
       </div>
     );
   }
 
 }
+
+export default connect(state => state)(LandingPage);

@@ -20,7 +20,6 @@ export default class App {
         this.reducers = reducers;
         this.store = this.setUpStore();
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
-        console.log(this.store);
         this.render();
         //this.store.dispatch(actions.requestData());
     }

@@ -9,11 +9,25 @@ export default class CheckList extends Component {
     render() {
         let title = 'React Redux Boilerplate';
         //this.context.onSetTitle(title);
-
+        console.log(this.props);
         return (
             <div className="checklist">
                 <ul className="checklist__items">
-                    <li className="checklist__item"><CheckListItem /></li>
+                    {
+                        this.props.feedback.map(feedback => (
+                            <CheckListItem 
+                                key={feedback.id}
+                                id={feedback.id}
+                                jobId={feedback.jobId}
+                                feedback={feedback.feedback}
+                                assignedTo={feedback.assignedTo}
+                                assignedBy={feedback.assignedBy}
+                                completed={feedback.completed}
+                                approved={feedback.approved}
+                                onChange={this.props.onChange}
+                            />
+                        ))
+                    }
                 </ul>
             </div>
         );

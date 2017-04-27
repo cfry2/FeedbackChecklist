@@ -1,4 +1,5 @@
 import { routerReducer } from 'react-router-redux';
+import feedback from 'core/reducers/feedback';
 
 export const initialState = {
     jobs : [
@@ -14,6 +15,15 @@ export const initialState = {
             feedback : "fix padding",
             assignedTo : "user-1",
             assignedBy : "user-2",
+            completed : false,
+            approved : true
+        },
+        {
+            id : 2,
+            jobId : 1,
+            feedback : "fix button alignment",
+            assignedTo : "user-1",
+            assignedBy : "user-2",
             completed : true,
             approved : false
         }
@@ -24,22 +34,7 @@ export const initialState = {
 export default function reducer(state = initialState, action) {
     return {
         routing : routerReducer(state.routing, action),
-        jobs : [
-            {
-                id : 1,
-                jobName : "rea16245"
-            }
-        ],
-        feedback : [
-            {
-                id : 1,
-                jobId : 1,
-                feedback : "fix padding",
-                assignedTo : "user-1",
-                assignedBy : "user-2",
-                completed : true,
-                approved : false
-            }
-        ]
-    };
+        jobs : state.jobs,
+        feedback: feedback(state.feedback, action)
+    }
 }

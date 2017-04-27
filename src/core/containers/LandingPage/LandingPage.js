@@ -12,13 +12,24 @@ export class LandingPage extends Component {
     onSetTitle: PropTypes.func.isRequired
   };*/
 
+  constructor(props) {
+        super(props);
+        this.handleComplete = this.handleComplete.bind(this);
+    } 
+  handleComplete(event) {
+    console.log(event);
+  }
+
   render() {
     let title = 'React Redux Boilerplate';
     //this.context.onSetTitle(title);
-
+    console.log(this.props);
     return (
       <div className='LandingPage'>
-          <CheckList />
+          <CheckList 
+            feedback={this.props.feedback}
+            onChange={this.handleComplete}
+          />
           <AddItem />
       </div>
     );

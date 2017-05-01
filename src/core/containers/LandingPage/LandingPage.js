@@ -6,6 +6,8 @@ import AddItem from 'core/components/checklist/AddItem';
 //import styles from './LandingPage.scss';
 //import withStyles from '../../common/decorators/withStyles';
 
+import * as actions from 'core/actions';
+
 export class LandingPage extends Component {
 
  /* static contextTypes = {
@@ -14,21 +16,20 @@ export class LandingPage extends Component {
 
   constructor(props) {
         super(props);
-        this.handleComplete = this.handleComplete.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     } 
-  handleComplete(event) {
-    console.log(event);
+  handleChange(index, item, value) {
+    this.props.dispatch(actions.feedbackChange(index, item, value));
   }
 
   render() {
     let title = 'React Redux Boilerplate';
     //this.context.onSetTitle(title);
-    console.log(this.props);
     return (
       <div className='LandingPage'>
           <CheckList 
             feedback={this.props.feedback}
-            onChange={this.handleComplete}
+            onChange={this.handleChange}
           />
           <AddItem />
       </div>

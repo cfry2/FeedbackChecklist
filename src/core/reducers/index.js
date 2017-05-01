@@ -1,6 +1,7 @@
 import { routerReducer } from 'react-router-redux';
 import feedback from 'core/reducers/feedback';
 import { List , fromJS} from 'immutable';
+import id from 'core/util/itemID';
 
 export const initialState = {
     jobs : [
@@ -11,7 +12,7 @@ export const initialState = {
     ],
     feedback : fromJS([
         {
-            id : 1,
+            id : id(),
             jobId : 1,
             feedback : "fix padding",
             assignedTo : "user-1",
@@ -20,7 +21,7 @@ export const initialState = {
             approved : true
         },
         {
-            id : 2,
+            id : id(),
             jobId : 1,
             feedback : "fix button alignment",
             assignedTo : "user-1",

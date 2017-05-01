@@ -3,7 +3,7 @@ import checkListItem from 'core/components/checklist/checkListItem';
 import {List} from 'immutable';
 
 
-export default class CheckLisItem extends Component {
+export default class CheckListItem extends Component {
 
   /*static contextTypes = {
     onSetTitle: PropTypes.func.isRequired
@@ -16,9 +16,24 @@ export default class CheckLisItem extends Component {
     //console.log(this.props);
     return (
         <div className="checklist__item__inner">
-          <span>{this.props.feedback}</span>
-          <span>{this.props.assignedTo}</span>
-          <span>{this.props.assignedBy}</span>
+          <input
+            type="text"
+            id="checklist__item__feedback"
+            defaultValue={this.props.feedback}
+            onChange={(e)=>this.props.onChange(this.props.index, 'feedback', e.target.value)}
+            />
+          <select name="assignedTo" defaultValue={this.props.assignedTo} onChange={(e)=>this.props.onChange(this.props.index, e.target.name, e.target.value)}>
+              <option value={this.props.assignedTo}>{this.props.assignedTo}</option>
+              <option value="person-1">Person-1</option> 
+              <option value="person-2"> Person-2</option>
+              <option value="person-3">Person-3</option>
+          </select>
+          <select name="assignedBy" defaultValue={this.props.assignedBy} onChange={(e)=>this.props.onChange(this.props.index, e.target.name, e.target.value)}>
+              <option value={this.props.assignedBy}>{this.props.assignedBy}</option>
+              <option value="person-1">Person-1</option> 
+              <option value="person-2"> Person-2</option>
+              <option value="person-3">Person-3</option>
+          </select>
           <input 
             type="checkbox" 
             id="checklist__item__completed"
@@ -32,7 +47,7 @@ export default class CheckLisItem extends Component {
             id="checklist__item__approved"
             checked={this.props.approved == true ? 'checked' : ''}
             value="approved"
-            onChange={(e)=>this.props.onChange({"id": "approved", "object": this.props, "value" : this.props.approved}, this.props.approved)}
+            onChange={(e)=>this.props.onChange(this.props.index, e.target.value, e.target.checked)}
           
           />
         </div>

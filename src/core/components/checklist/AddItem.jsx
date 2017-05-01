@@ -11,19 +11,32 @@ export default class AddItem extends Component {
 
   render() {
     let title = 'React Redux Boilerplate';
-    //this.context.onSetTitle(title);
+    console.log(this.props);
 
     return (
         <div className="additem">
-            <div className="additem__inputs">
-                <input name="feedback-text" type="text" placeholder="assign some feedback" />
+            <form className="additem__inputs" 
+            onSubmit={
+                (e) => {
+                    e.preventDefault();
+                    this.props.onAdd(
+                        {
+                        "feedBack" : e.target.elements.feedback.value,
+                        "assignTo" : e.target.elements.select.value
+                        }
+                    );
+                    e.target.elements.feedback.value = '';
+                    e.target.elements.select.value = '';
+                }
+            }>
+                <input name="feedback" type="text" placeholder="assign some feedback" />
                 <select name="select" defaultValue="person-2">
                     <option value="person-1">Person-1</option> 
                     <option value="person-2"> Person-2</option>
                     <option value="person-3">Person-3</option>
                 </select>
-                <button>Add</button>
-            </div>
+                <button type="submit">Add</button>
+            </form>
         </div>
     );
   }

@@ -13,7 +13,7 @@ export default class CheckLisItem extends Component {
   render() {
     let title = 'React Redux Boilerplate';
     //this.context.onSetTitle(title);
-    console.log(this.props);
+    //console.log(this.props);
     return (
         <div className="checklist__item__inner">
           <span>{this.props.feedback}</span>
@@ -24,15 +24,15 @@ export default class CheckLisItem extends Component {
             id="checklist__item__completed"
             checked={this.props.completed == true ? 'checked' : ''}
             value="completed"
-            onChange={(e)=>this.props.onChange(this.props, this.props.completed)}
+            onChange={(e)=>this.props.onChange(this.props.index, e.target.value, e.target.checked)}
           
           />
           <input 
             type="checkbox" 
             id="checklist__item__approved"
             checked={this.props.approved == true ? 'checked' : ''}
-            value="completed"
-            onChange={this.props.onChange}
+            value="approved"
+            onChange={(e)=>this.props.onChange({"id": "approved", "object": this.props, "value" : this.props.approved}, this.props.approved)}
           
           />
         </div>

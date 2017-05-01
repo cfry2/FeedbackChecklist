@@ -1,5 +1,6 @@
 import { routerReducer } from 'react-router-redux';
 import feedback from 'core/reducers/feedback';
+import { List , fromJS} from 'immutable';
 
 export const initialState = {
     jobs : [
@@ -8,7 +9,7 @@ export const initialState = {
             jobName : "rea16245"
         }
     ],
-    feedback : [
+    feedback : fromJS([
         {
             id : 1,
             jobId : 1,
@@ -27,7 +28,7 @@ export const initialState = {
             completed : true,
             approved : false
         }
-    ]
+    ])
 
 };
 

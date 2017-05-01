@@ -17,9 +17,15 @@ export class LandingPage extends Component {
   constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.addItem = this.addItem.bind(this);
     } 
   handleChange(index, item, value) {
     this.props.dispatch(actions.feedbackChange(index, item, value));
+  }
+
+  addItem(item) {
+    console.log(item);
+    this.props.dispatch(actions.feedbackAdd(item));
   }
 
   render() {
@@ -31,7 +37,9 @@ export class LandingPage extends Component {
             feedback={this.props.feedback}
             onChange={this.handleChange}
           />
-          <AddItem />
+          <AddItem
+            onAdd={this.addItem}
+          />
       </div>
     );
   }

@@ -1,42 +1,19 @@
 import { routerReducer } from 'react-router-redux';
 import feedback from 'core/reducers/feedback';
-import { List , fromJS} from 'immutable';
+import jobs from 'core/reducers/jobs';
+import { List , fromJS, Map} from 'immutable';
 import id from 'core/util/itemID';
 
 export const initialState = {
-    jobs : [
-        {
-            id : 1,
-            jobName : "rea16245"
-        }
-    ],
-    feedback : fromJS([
-        {
-            id : id(),
-            jobId : 1,
-            feedback : "fix padding",
-            assignedTo : "user-1",
-            assignedBy : "user-2",
-            completed : false,
-            approved : true
-        },
-        {
-            id : id(),
-            jobId : 1,
-            feedback : "fix button alignment",
-            assignedTo : "user-1",
-            assignedBy : "user-2",
-            completed : true,
-            approved : false
-        }
-    ])
+    jobs : List([]),
+    feedback : List([])
 
 };
 
 export default function reducer(state = initialState, action) {
     return {
         routing : routerReducer(state.routing, action),
-        jobs : state.jobs,
+        jobs : jobs(state.jobs, action),
         feedback: feedback(state.feedback, action)
     }
 }

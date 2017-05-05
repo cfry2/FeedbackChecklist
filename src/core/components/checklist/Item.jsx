@@ -1,9 +1,8 @@
 import React, { PropTypes, Component } from 'react';
-import checkListItem from 'core/components/checklist/checkListItem';
 import {List} from 'immutable';
 
 
-export default class CheckListItem extends Component {
+export default class Item extends Component {
 
   /*static contextTypes = {
     onSetTitle: PropTypes.func.isRequired
@@ -11,9 +10,6 @@ export default class CheckListItem extends Component {
 
 
   render() {
-    let title = 'React Redux Boilerplate';
-    //this.context.onSetTitle(title);
-    //console.log(this.props);
     return (
         <div className="checklist__item__inner">
           <input
@@ -50,6 +46,11 @@ export default class CheckListItem extends Component {
             onChange={(e)=>this.props.onChange(this.props.index, e.target.value, e.target.checked)}
           
           />
+          <a href="#"
+            onClick={(e)=>this.props.onDelete(this.props.index)}
+          >
+            Remove
+          </a>
         </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CheckList from 'core/components/checklist/CheckList';
+import { Link } from 'react-router-dom';
 import AddItem from 'core/components/checklist/AddItem';
 //import styles from './LandingPage.scss';
 //import withStyles from '../../common/decorators/withStyles';
@@ -17,10 +18,15 @@ export class LandingPage extends Component {
   constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.addItem = this.addItem.bind(this);
     } 
   handleChange(index, item, value) {
     this.props.dispatch(actions.feedbackChange(index, item, value));
+  }
+
+  handleDelete(index) {
+    this.props.dispatch(actions.feedbackDelete(index));
   }
 
   addItem(item) {
@@ -28,14 +34,24 @@ export class LandingPage extends Component {
     this.props.dispatch(actions.feedbackAdd(item));
   }
 
+  componentWillMount() {
+
+      this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
+  }
+
+  componentWillUnmount() {
+      this.props.dispatch(actions.feedbackDump());
+  }
+
   render() {
-    let title = 'React Redux Boilerplate';
-    //this.context.onSetTitle(title);
+
     return (
       <div className='LandingPage'>
+          <div><Link to="/">return</Link></div>
           <CheckList 
             feedback={this.props.feedback}
             onChange={this.handleChange}
+            onDelete={this.handleDelete}
           />
           <AddItem
             onAdd={this.addItem}

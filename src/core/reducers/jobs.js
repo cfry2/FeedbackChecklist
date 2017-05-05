@@ -9,10 +9,10 @@ export default function jobs(state, action) {
     //console.log(state);
     //index = state.findIndex(todo => action.id === todo.get('id'));
     if (action.type === actions.JOBS_RETRIEVE) {
-        let transformed = action.data.map(job => (
+        let transformed = Object.keys(action.data).map((key) => (
             {
-                id: job.id,
-                jobName: job.jobName
+                id: key,
+                jobName: action.data[key].jobName
             }
         ))
         
@@ -29,7 +29,7 @@ export default function jobs(state, action) {
     if (action.type === actions.JOBS_ADD) {
 
         return state.push(Map({
-            id : id(),
+            id : action.id,
             jobName : action.job.job
         }))
 

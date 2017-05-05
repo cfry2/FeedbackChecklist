@@ -103,14 +103,26 @@ export function jobsDump()
 
 export function jobsAdd(job)
 {
-    return {
-        type : JOBS_ADD,
-        job: job
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('jobs');
+        //console.log(ref);
+        var pushJob = ref.push();
+        pushJob.set({
+            'id' : pushJob.key,
+            'jobName' : job.job
+        })
+        dispatch({
+            type : JOBS_ADD,
+            job: job,
+            id : pushJob.key
+        });
     }
 }
 
 export function jobsDelete(job)
 {
+    console.log(job);
     return {
         type : JOBS_DELETE,
         job: job

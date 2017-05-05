@@ -10,8 +10,6 @@ export default class AddItem extends Component {
   };*/
 
   render() {
-    let title = 'React Redux Boilerplate';
-    console.log(this.props);
 
     return (
         <div className="additem">

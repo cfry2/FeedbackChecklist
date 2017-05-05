@@ -1,22 +1,19 @@
 
 import React, { PropTypes, Component } from 'react';
-import CheckListItem from 'core/components/checklist/CheckListItem';
+import Item from 'core/components/checklist/Item';
 //import {List} from 'immutable';
 
 
 export default class CheckList extends Component {
 
     render() {
-        let title = 'React Redux Boilerplate';
-        //this.context.onSetTitle(title);
-        console.log(this.props.feedback);
         return (
             <div className="checklist">
                 <ul className="checklist__items">
                     {
                         this.props.feedback.map((feedback, index) => (
                             <li key={feedback.get('id')}>
-                                <CheckListItem
+                                <Item
                                     index={index}
                                     id={feedback.get('id')}
                                     jobId={feedback.get('jobId')}
@@ -26,6 +23,7 @@ export default class CheckList extends Component {
                                     completed={feedback.get('completed')}
                                     approved={feedback.get('approved')}
                                     onChange={this.props.onChange}
+                                    onDelete={this.props.onDelete}
                                 />
                             </li>
                         ))

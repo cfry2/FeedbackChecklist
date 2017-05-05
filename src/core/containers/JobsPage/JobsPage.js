@@ -49,7 +49,7 @@ export class JobsPage extends Component {
                   this.props.jobs.map((job, index) => (
                       <li key={job.get('id')}>
                           <Link to={'/job/'+job.get('id')}>{job.get('jobName')}</Link> | 
-                           <a href="#" onClick={(e)=>this.deleteJob(index)}> Delete</a>
+                           <a href="#" onClick={(e)=>this.deleteJob(job.get('id'))}> Delete</a>
                     </li>
                   ))
               }

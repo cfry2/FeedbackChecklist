@@ -17,10 +17,12 @@ export default class AddItem extends Component {
             onSubmit={
                 (e) => {
                     e.preventDefault();
+                    console.log(this.props);
                     this.props.onAdd(
                         {
-                        "feedBack" : e.target.elements.feedback.value,
-                        "assignTo" : e.target.elements.select.value
+                            "feedBack" : e.target.elements.feedback.value,
+                            "assignTo" : e.target.elements.select.value,
+                            "jobId" : this.props.jobId
                         }
                     );
                     e.target.elements.feedback.value = '';

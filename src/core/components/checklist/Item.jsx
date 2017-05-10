@@ -47,7 +47,7 @@ export default class Item extends Component {
           
           />
           <a href="#"
-            onClick={(e)=>this.props.onDelete(this.props.index)}
+            onClick={(e)=>this.props.onDelete(this.props.index, this.props.id)}
           >
             Remove
           </a>

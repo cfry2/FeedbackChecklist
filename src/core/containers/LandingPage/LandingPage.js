@@ -25,8 +25,8 @@ export class LandingPage extends Component {
     this.props.dispatch(actions.feedbackChange(id, index, item, value));
   }
 
-  handleDelete(index) {
-    this.props.dispatch(actions.feedbackDelete(index));
+  handleDelete(index, id) {
+    this.props.dispatch(actions.feedbackDelete(index, id));
   }
 
   addItem(item) {

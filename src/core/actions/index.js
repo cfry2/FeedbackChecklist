@@ -17,7 +17,6 @@ export function feedbackChange(id, index, item, value) {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('feedback/' + id);
-        console.log(value);
         ref.update({[item] : value});
 
         dispatch({
@@ -31,11 +30,6 @@ export function feedbackChange(id, index, item, value) {
 
 export function feedbackAdd(item)
 {
-    /*return {
-        type : FEEDBACK_ADD,
-        item: item
-    }*/
-
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('feedback');
@@ -60,21 +54,24 @@ export function feedbackAdd(item)
 
 }
 
-export function feedbackDelete(item)
+export function feedbackDelete(index, id)
 {
-    return {
-        type : FEEDBACK_DELETE,
-        item: item
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('feedback/' + id);
+
+        ref.remove()
+            .then(function() {
+                dispatch({
+                    type : FEEDBACK_DELETE,
+                    item: index
+                });
+            });
     }
 }
 
 export function feedbackRetrieve(id)
 {
-   /* return {
-        type : FEEDBACK_RETRIEVE,
-        id : id
-    }*/
-
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('feedback');

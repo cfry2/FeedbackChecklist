@@ -12,21 +12,52 @@ export const JOBS_DELETE = 'JOBS_DELETE';
 import { pathToJS } from 'react-redux-firebase';
 
 
-export function feedbackChange(index, item, value) {
-    return {
-        type : FEEDBACK_CHANGE,
-        index : index,
-        item: item,
-        value : value
+export function feedbackChange(id, index, item, value) {
+
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('feedback/' + id);
+        console.log(value);
+        ref.update({[item] : value});
+
+        dispatch({
+            type : FEEDBACK_CHANGE,
+            index : index,
+            item: item,
+            value : value
+        });
     }
 }
 
 export function feedbackAdd(item)
 {
-    return {
+    /*return {
         type : FEEDBACK_ADD,
         item: item
+    }*/
+
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('feedback');
+        var pushJob = ref.push();
+        var data = {
+            'id' : pushJob.key,
+            'jobId' : item.jobId,
+            'feedback' : item.feedBack,
+            'assignedTo' : item.assignTo,
+            'assignedBy' : 'user-2',
+            'completed' : false,
+            'approved' : false
+        }
+
+        pushJob.set(data);
+
+        dispatch({
+            type : FEEDBACK_ADD,
+            feedback : data
+        });
     }
+
 }
 
 export function feedbackDelete(item)
@@ -39,10 +70,28 @@ export function feedbackDelete(item)
 
 export function feedbackRetrieve(id)
 {
-    return {
+   /* return {
         type : FEEDBACK_RETRIEVE,
         id : id
-    }
+    }*/
+
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('feedback');
+        var data = [];
+        ref.once("value")
+            .then(function(snapshot) {
+                Object.keys(snapshot.val()).forEach(function(child) {
+                    if (snapshot.val()[child].jobId == id) {
+                        data.push(snapshot.val()[child]);
+                    } 
+                });
+                dispatch({
+                    type : FEEDBACK_RETRIEVE,
+                    data: data
+                });
+            });
+    };
 }
 
 export function feedbackDump()
@@ -54,21 +103,10 @@ export function feedbackDump()
 
 export function jobsRetrieve()
 {
-   /*console.log(getFirebase());
-    return {
-        type : JOBS_RETRIEVE
-    }*/
-
     return function(dispatch, getState, getFirebase) {
-        // Immediately dispatch init action
-        //console.log(getFirebase());
-        /*dispatch({
-            type : JOBS_RETRIEVE
-        });*/
-
         var fb = getFirebase();
         var ref = fb.database().ref('jobs');
-        //console.log(ref);
+
         ref.once("value")
             .then(function(snapshot) {
                 dispatch({
@@ -76,21 +114,6 @@ export function jobsRetrieve()
                     data: snapshot.val()
                 });
             });
-        /*request
-            .get('/data.json')
-            .end(function(err, res){
-                if(err) {
-                    dispatch({
-                        type : 'REQUEST_DATA_ERROR',
-                        err : err
-                    });
-                } else {
-                    dispatch({
-                        type : 'JOBS_RETRIEVE',
-                        data : res.body
-                    });
-                }
-            });*/
     };
 }
 
@@ -106,8 +129,8 @@ export function jobsAdd(job)
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('jobs');
-        //console.log(ref);
         var pushJob = ref.push();
+
         pushJob.set({
             'id' : pushJob.key,
             'jobName' : job.job
@@ -122,10 +145,17 @@ export function jobsAdd(job)
 
 export function jobsDelete(job)
 {
-    console.log(job);
-    return {
-        type : JOBS_DELETE,
-        job: job
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('jobs/' + job);
+
+        ref.remove()
+            .then(function() {
+                dispatch({
+                    type : JOBS_DELETE,
+                    job: job
+                });
+            });
     }
 }
 

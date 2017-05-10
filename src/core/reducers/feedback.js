@@ -5,50 +5,29 @@ import data from 'core/util/data';
 
 
 export default function feedback(state, action) {
-    //console.log(state);
-    //index = state.findIndex(todo => action.id === todo.get('id'));
     if (action.type === actions.FEEDBACK_CHANGE) {
-        //console.log(index);
         return state.setIn([action.index, action.item], action.value);
     }
 
     if (action.type === actions.FEEDBACK_RETRIEVE) {
-        //console.log(index);
 
-            let transformed = data().feedback.map(feedback => ({
-                id : id(),
-                jobId : feedback.jobId ,
-                feedback : feedback.feedback,
-                assignedTo : feedback.assignedTo,
-                assignedBy : feedback.assignedBy,
-                completed : feedback.completed,
-                approved : feedback.approved 
-            }));
-            
-            let feedbackObject = fromJS(transformed);
-            let feedback = List([]);
-            feedbackObject.forEach(function(obj) {
+        let transformed = action.data.map(feedback => ({
+            id : id(),
+            jobId : feedback.jobId ,
+            feedback : feedback.feedback,
+            assignedTo : feedback.assignedTo,
+            assignedBy : feedback.assignedBy,
+            completed : feedback.completed,
+            approved : feedback.approved 
+        }));
+        let feedbackObject = fromJS(transformed);
 
-                if(obj.get('jobId') == action.id) {
-                    feedback = feedback.push(obj);
-                }
-            });
-            console.log(feedback);
-
-       return state.concat(feedback);
+       return state.concat(feedbackObject);
     }
 
     if (action.type === actions.FEEDBACK_ADD) {
 
-        return state.push(Map({
-            id : id(),
-            jobId : "1",
-            feedback : action.item.feedBack,
-            assignedTo : action.item.assignTo,
-            assignedBy : 'user-1',
-            completed : false,
-            approved : false
-        }))
+        return state.push(fromJS(action.feedback));
 
     }
 
@@ -57,9 +36,7 @@ export default function feedback(state, action) {
     }
 
     if (action.type === actions.FEEDBACK_DUMP) {
-
-        state = List([]);
-        return state;
+        return state.clear();
 
     }
 

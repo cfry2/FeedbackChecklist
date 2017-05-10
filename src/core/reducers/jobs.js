@@ -9,6 +9,7 @@ export default function jobs(state, action) {
     //console.log(state);
     //index = state.findIndex(todo => action.id === todo.get('id'));
     if (action.type === actions.JOBS_RETRIEVE) {
+
         let transformed = Object.keys(action.data).map((key) => (
             {
                 id: key,
@@ -21,9 +22,7 @@ export default function jobs(state, action) {
 
     //PLACEHOLDER
     if (action.type === actions.JOBS_DUMP) {
-        state = List([]);
-        
-        return state;
+        return state.clear();
     }
 
     if (action.type === actions.JOBS_ADD) {
@@ -36,7 +35,14 @@ export default function jobs(state, action) {
     }
 
     if (action.type === actions.JOBS_DELETE) {
-        return state.delete(action.job);
+        var toDelete;
+        state.forEach(function(obj, index) {
+            if(obj.get('id') === action.job) {
+                toDelete = index;
+            }
+        });
+        return state.delete(toDelete);
+        
     }
 
 

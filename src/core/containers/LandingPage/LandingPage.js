@@ -21,8 +21,8 @@ export class LandingPage extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.addItem = this.addItem.bind(this);
     } 
-  handleChange(index, item, value) {
-    this.props.dispatch(actions.feedbackChange(index, item, value));
+  handleChange(id, index, item, value) {
+    this.props.dispatch(actions.feedbackChange(id, index, item, value));
   }
 
   handleDelete(index) {
@@ -55,6 +55,7 @@ export class LandingPage extends Component {
           />
           <AddItem
             onAdd={this.addItem}
+            jobId={this.props.match.params.jobId}
           />
       </div>
     );

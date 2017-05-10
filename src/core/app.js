@@ -44,12 +44,29 @@ export default class App {
         };
     }
 
+    logout() {
+        var fb = getFirebase();
+        fb.logout();
+        console.log(fb.auth());
+    }
+
     render() {
+        var fb = getFirebase();
+        console.log(fb.auth().currentUser);
+        if (fb.auth().currentUser == null) {
+            fb.login({provider: 'google', type: 'popup'});
+            console.log(fb.auth().currentUser);
+        }
+        
+
+
         ReactDOM.render(
             <div>
                  <Provider store={this.store}>
                     <Router history={this.history}>
+                        
                         <div>
+                            <a href="#" onClick={this.logout}>Logout</a>
                             <Route exact path="/" component={JobsPage}/>
                             <Route path="/job/:jobId" component={LandingPage}/>
                         </div>

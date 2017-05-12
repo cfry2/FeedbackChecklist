@@ -46,6 +46,7 @@ export class LandingPage extends Component {
   render() {
 
     return (
+      
       <div className='LandingPage'>
           <div><Link to="/">return</Link></div>
           <CheckList 

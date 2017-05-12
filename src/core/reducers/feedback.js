@@ -12,7 +12,7 @@ export default function feedback(state, action) {
     if (action.type === actions.FEEDBACK_RETRIEVE) {
 
         let transformed = action.data.map(feedback => ({
-            id : id(),
+            id : feedback.id,
             jobId : feedback.jobId ,
             feedback : feedback.feedback,
             assignedTo : feedback.assignedTo,

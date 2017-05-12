@@ -9,6 +9,8 @@ export const JOBS_DUMP = 'JOBS_DUMP';
 export const JOBS_ADD = 'JOBS_ADD';
 export const JOBS_DELETE = 'JOBS_DELETE';
 
+export const USER_AUTHORIZE = 'USER_AUTHORIZE';
+
 import { pathToJS } from 'react-redux-firebase';
 
 
@@ -57,6 +59,7 @@ export function feedbackAdd(item)
 export function feedbackDelete(index, id)
 {
     return function(dispatch, getState, getFirebase) {
+        console.log(id);
         var fb = getFirebase();
         var ref = fb.database().ref('feedback/' + id);
 
@@ -153,6 +156,32 @@ export function jobsDelete(job)
                     job: job
                 });
             });
+    }
+}
+
+export function userAuthorize() {
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        if (!localStorage.getItem('currentUser')) {
+            fb.login({provider: 'google', type: 'popup'}).then(function(user) {
+                var userObject = {
+                    id : user.profile.uid,
+                    name : user.profile.displayName,
+                    email: user.profile.email
+                };
+                localStorage.setItem('currentUser', JSON.stringify(userObject));
+                dispatch({
+                    type : USER_AUTHORIZE,
+                    user: userObject
+                });
+            });
+        }
+        else {
+            dispatch({
+                type : USER_AUTHORIZE,
+                user: JSON.parse(localStorage.getItem('currentUser'))
+            });
+        }
     }
 }
 

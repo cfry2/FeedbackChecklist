@@ -42,21 +42,32 @@ export class JobsPage extends Component {
   render() {
     let title = 'React Redux Boilerplate';
     //this.context.onSetTitle(title);
+    console.log(this.props);
     return (
+        
       <div className='JobsPage'>
-          <ul>
-              {
-                  this.props.jobs.map((job, index) => (
-                      <li key={job.get('id')}>
-                          <Link to={'/job/'+job.get('id')}>{job.get('jobName')}</Link> | 
-                           <a href="#" onClick={(e)=>this.deleteJob(job.get('id'))}> Delete</a>
-                    </li>
-                  ))
-              }
-          </ul>
-          <AddJob
-            onAdd={this.addJob}
-          />
+        {this.props.currentUser == undefined ? (
+            <div className="JobsPage__inner">
+                <p>Your are not logged in</p>
+            </div>
+        ) : 
+
+            <div className="JobsPage__inner">
+                <ul>
+                    {
+                        this.props.jobs.map((job, index) => (
+                            <li key={job.get('id')}>
+                                <Link to={'/job/'+job.get('id')}>{job.get('jobName')}</Link> | 
+                                <a href="#" onClick={(e)=>this.deleteJob(job.get('id'))}> Delete</a>
+                            </li>
+                        ))
+                    }
+                </ul>
+                <AddJob
+                    onAdd={this.addJob}
+                />
+            </div>
+        }
       </div>
     );
   }

@@ -8,11 +8,13 @@ import thunk from 'redux-thunk';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import * as actions from 'core/actions';
 import { reactReduxFirebase, firebaseStateReducer, getFirebase } from 'react-redux-firebase';
 
 //import Page from 'core/containers/page'
 import LandingPage from 'core/containers/LandingPage/LandingPage'
 import JobsPage from 'core/containers/JobsPage/JobsPage'
+import unAuthPage from 'core/containers/unAuthPage/unAuthPage'
 //import reducers here
 import reducers , {initialState} from 'core/reducers/index';
 
@@ -24,8 +26,9 @@ export default class App {
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
+        this.store.dispatch(actions.userAuthorize());
         this.render();
-        //this.store.dispatch(actions.requestData());
+        
     }
 
     setUpStore() {
@@ -45,21 +48,15 @@ export default class App {
     }
 
     logout() {
-        var fb = getFirebase();
+        /*var fb = getFirebase();
         fb.logout();
-        console.log(fb.auth());
+        console.log(fb.auth());*/
+        //this.props.dispatch(actions.feedbackDelete(index, id));
     }
 
+
+
     render() {
-        var fb = getFirebase();
-        console.log(fb.auth().currentUser);
-        if (fb.auth().currentUser == null) {
-            fb.login({provider: 'google', type: 'popup'});
-            console.log(fb.auth().currentUser);
-        }
-        
-
-
         ReactDOM.render(
             <div>
                  <Provider store={this.store}>

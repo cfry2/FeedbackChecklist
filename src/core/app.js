@@ -23,10 +23,11 @@ export default class App {
     constructor() {
         this.element = document.getElementById('app');
         this.reducers = reducers;
+        console.log(this.reducers);
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
-        this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
         this.store.dispatch(actions.userAuthorize());
+        this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
         this.render();
         
     }
@@ -46,15 +47,6 @@ export default class App {
             messagingSenderId: "665189860934"
         };
     }
-
-    logout() {
-        /*var fb = getFirebase();
-        fb.logout();
-        console.log(fb.auth());*/
-        //this.props.dispatch(actions.feedbackDelete(index, id));
-    }
-
-
 
     render() {
         ReactDOM.render(

@@ -19,6 +19,7 @@ export class JobsPage extends Component {
         super(props);
         this.addJob = this.addJob.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
+        this.authenticateUser = this.authenticateUser.bind(this);
     } 
 
   componentWillMount() {
@@ -39,16 +40,21 @@ export class JobsPage extends Component {
       this.props.dispatch(actions.jobsDelete(job));
   }
 
+  authenticateUser() {
+      this.props.dispatch(actions.userAuthorize());
+  }
+
   render() {
     let title = 'React Redux Boilerplate';
     //this.context.onSetTitle(title);
-    console.log(this.props);
+    //console.log(this.props);
     return (
         
       <div className='JobsPage'>
         {this.props.currentUser == undefined ? (
             <div className="JobsPage__inner">
-                <p>Your are not logged in</p>
+                <p>Your are not logged in. <a href="#" onClick={this.authenticateUser}>Log in now</a></p>
+               
             </div>
         ) : 
 

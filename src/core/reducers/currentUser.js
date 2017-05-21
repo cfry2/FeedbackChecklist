@@ -7,9 +7,11 @@ import data from 'core/util/data';
 export default function currentUser(state, action) {
 
     if (action.type === actions.USER_AUTHORIZE) {
+
         let userObject = fromJS(action.user);
         return state = userObject;
 
         
     }
+    return state;
 }

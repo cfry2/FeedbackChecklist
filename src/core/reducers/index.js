@@ -9,7 +9,6 @@ import id from 'core/util/itemID';
 export const initialState = {
     jobs : List([]),
     feedback : List([]),
-    users : List([]),
     currentUser : Map()
 
 };
@@ -19,7 +18,6 @@ export default function reducer(state = initialState, action) {
         routing : routerReducer(state.routing, action),
         jobs : jobs(state.jobs, action),
         feedback: feedback(state.feedback, action),
-        users : users(state.users, action),
         currentUser : currentUser(state.currentUser, action)
     }
 }

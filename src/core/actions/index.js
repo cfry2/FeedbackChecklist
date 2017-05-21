@@ -163,6 +163,7 @@ export function userAuthorize() {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         if (!localStorage.getItem('currentUser')) {
+            console.log("currentUser object not found");
             fb.login({provider: 'google', type: 'popup'}).then(function(user) {
                 var userObject = {
                     id : user.profile.uid,
@@ -177,6 +178,8 @@ export function userAuthorize() {
             });
         }
         else {
+            console.log("currentUser object found");
+
             dispatch({
                 type : USER_AUTHORIZE,
                 user: JSON.parse(localStorage.getItem('currentUser'))

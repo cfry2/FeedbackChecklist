@@ -13,5 +13,13 @@ export default function currentUser(state, action) {
 
         
     }
+
+    if (action.type === actions.USER_LOGOUT) {
+
+        return state.clear();
+
+        
+    }
+
     return state;
 }

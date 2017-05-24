@@ -10,6 +10,7 @@ export const JOBS_ADD = 'JOBS_ADD';
 export const JOBS_DELETE = 'JOBS_DELETE';
 
 export const USER_AUTHORIZE = 'USER_AUTHORIZE';
+export const USER_LOGOUT = 'USER_LOGOUT';
 
 import { pathToJS } from 'react-redux-firebase';
 
@@ -162,7 +163,7 @@ export function jobsDelete(job)
 export function userAuthorize() {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
-        if (!localStorage.getItem('currentUser')) {
+        if (!localStorage.getItem('currentUser') || localStorage.getItem('currentUser') == "null" ) {
             console.log("currentUser object not found");
             fb.login({provider: 'google', type: 'popup'}).then(function(user) {
                 var userObject = {
@@ -188,3 +189,13 @@ export function userAuthorize() {
     }
 }
 
+export function userLogout() {
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        fb.logout();
+        localStorage.setItem('currentUser', null)
+        dispatch({
+            type : USER_LOGOUT
+        });
+    }
+}

@@ -20,6 +20,7 @@ export class JobsPage extends Component {
         this.addJob = this.addJob.bind(this);
         this.deleteJob = this.deleteJob.bind(this);
         this.authenticateUser = this.authenticateUser.bind(this);
+        this.logout = this.logout.bind(this);
     } 
 
   componentWillMount() {
@@ -43,15 +44,16 @@ export class JobsPage extends Component {
   authenticateUser() {
       this.props.dispatch(actions.userAuthorize());
   }
+  logout() {
+      this.props.dispatch(actions.userLogout());
+  }
 
   render() {
-    let title = 'React Redux Boilerplate';
-    //this.context.onSetTitle(title);
-    //console.log(this.props);
+    console.log(this.props.currentUser);  
     return (
         
       <div className='JobsPage'>
-        {this.props.currentUser == undefined ? (
+        {this.props.currentUser.size >  0 ? (
             <div className="JobsPage__inner">
                 <p>Your are not logged in. <a href="#" onClick={this.authenticateUser}>Log in now</a></p>
                
@@ -59,6 +61,7 @@ export class JobsPage extends Component {
         ) : 
 
             <div className="JobsPage__inner">
+                <a href="#" onClick={this.logout}>Logout</a>
                 <ul>
                     {
                         this.props.jobs.map((job, index) => (

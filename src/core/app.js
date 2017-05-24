@@ -55,7 +55,6 @@ export default class App {
                     <Router history={this.history}>
                         
                         <div>
-                            <a href="#" onClick={this.logout}>Logout</a>
                             <Route exact path="/" component={JobsPage}/>
                             <Route path="/job/:jobId" component={LandingPage}/>
                         </div>

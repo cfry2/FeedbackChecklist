@@ -37,6 +37,7 @@ export class LandingPage extends Component {
   componentWillMount() {
 
       this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
+      this.props.dispatch(actions.getUsers());
   }
 
   componentWillUnmount() {
@@ -44,7 +45,6 @@ export class LandingPage extends Component {
   }
 
   render() {
-
     return (
       
       <div className='LandingPage'>
@@ -53,10 +53,12 @@ export class LandingPage extends Component {
             feedback={this.props.feedback}
             onChange={this.handleChange}
             onDelete={this.handleDelete}
+            users={this.props.users}
           />
           <AddItem
             onAdd={this.addItem}
             jobId={this.props.match.params.jobId}
+            users={this.props.users}
           />
       </div>
     );

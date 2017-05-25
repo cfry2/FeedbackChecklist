@@ -53,7 +53,7 @@ export class JobsPage extends Component {
     return (
         
       <div className='JobsPage'>
-        {this.props.currentUser.size >  0 ? (
+        {!this.props.currentUser.has('id') ? (
             <div className="JobsPage__inner">
                 <p>Your are not logged in. <a href="#" onClick={this.authenticateUser}>Log in now</a></p>
                

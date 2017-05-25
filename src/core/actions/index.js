@@ -12,6 +12,8 @@ export const JOBS_DELETE = 'JOBS_DELETE';
 export const USER_AUTHORIZE = 'USER_AUTHORIZE';
 export const USER_LOGOUT = 'USER_LOGOUT';
 
+export const GET_USERS = "GET_USERS";
+
 import { pathToJS } from 'react-redux-firebase';
 
 
@@ -197,5 +199,20 @@ export function userLogout() {
         dispatch({
             type : USER_LOGOUT
         });
+    }
+}
+
+export function getUsers() {
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var ref = fb.database().ref('users');
+
+        ref.once("value")
+            .then(function(snapshot) {
+                dispatch({
+                    type : GET_USERS,
+                    data: snapshot.val()
+                });
+            });
     }
 }

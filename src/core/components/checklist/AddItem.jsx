@@ -10,7 +10,7 @@ export default class AddItem extends Component {
   };*/
 
   render() {
-
+    console.log(this.props.users);
     return (
         <div className="additem">
             <form className="additem__inputs" 
@@ -30,10 +30,12 @@ export default class AddItem extends Component {
                 }
             }>
                 <input name="feedback" type="text" placeholder="assign some feedback" />
-                <select name="select" defaultValue="person-2">
-                    <option value="person-1">Person-1</option> 
-                    <option value="person-2"> Person-2</option>
-                    <option value="person-3">Person-3</option>
+                <select name="select">
+                    {
+                        this.props.users.map((user, index) => (
+                            <option key={index} value={user.get('name')}>{user.get('name')}</option>      
+                        ))
+                    }
                 </select>
                 <button type="submit">Add</button>
             </form>

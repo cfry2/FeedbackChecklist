@@ -49,14 +49,12 @@ export class JobsPage extends Component {
   }
 
   render() {
-    console.log(this.props.currentUser);  
     return (
         
       <div className='JobsPage'>
         {!this.props.currentUser.has('id') ? (
             <div className="JobsPage__inner">
-                <p>Your are not logged in. <a href="#" onClick={this.authenticateUser}>Log in now</a></p>
-               
+                <p>Your are not logged in. <a href="#" onClick={this.authenticateUser}>Log in now</a></p>          
             </div>
         ) : 
 

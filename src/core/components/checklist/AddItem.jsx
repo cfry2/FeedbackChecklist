@@ -10,7 +10,6 @@ export default class AddItem extends Component {
   };*/
 
   render() {
-    console.log(this.props.users);
     return (
         <div className="additem">
             <form className="additem__inputs" 
@@ -22,6 +21,7 @@ export default class AddItem extends Component {
                         {
                             "feedBack" : e.target.elements.feedback.value,
                             "assignTo" : e.target.elements.select.value,
+                            "assignBy" : this.props.currentUser.get('name'),
                             "jobId" : this.props.jobId
                         }
                     );

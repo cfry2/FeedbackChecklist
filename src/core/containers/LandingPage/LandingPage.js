@@ -30,7 +30,6 @@ export class LandingPage extends Component {
   }
 
   addItem(item) {
-    console.log(item);
     this.props.dispatch(actions.feedbackAdd(item));
   }
 
@@ -59,6 +58,7 @@ export class LandingPage extends Component {
             onAdd={this.addItem}
             jobId={this.props.match.params.jobId}
             users={this.props.users}
+            currentUser={this.props.currentUser}
           />
       </div>
     );

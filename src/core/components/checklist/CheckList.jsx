@@ -24,6 +24,7 @@ export default class CheckList extends Component {
                                     approved={feedback.get('approved')}
                                     onChange={this.props.onChange}
                                     onDelete={this.props.onDelete}
+                                    users={this.props.users}
                                 />
                             </li>
                         ))

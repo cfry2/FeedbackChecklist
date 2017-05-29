@@ -15,6 +15,7 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 export const GET_USERS = "GET_USERS";
 
 import { pathToJS } from 'react-redux-firebase';
+import {fromJS, Map, List} from 'immutable';
 
 
 export function feedbackChange(id, index, item, value) {
@@ -44,7 +45,7 @@ export function feedbackAdd(item)
             'jobId' : item.jobId,
             'feedback' : item.feedBack,
             'assignedTo' : item.assignTo,
-            'assignedBy' : 'user-2',
+            'assignedBy' : item.assignBy,
             'completed' : false,
             'approved' : false
         }
@@ -62,7 +63,6 @@ export function feedbackAdd(item)
 export function feedbackDelete(index, id)
 {
     return function(dispatch, getState, getFirebase) {
-        console.log(id);
         var fb = getFirebase();
         var ref = fb.database().ref('feedback/' + id);
 
@@ -166,7 +166,6 @@ export function userAuthorize() {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         if (!localStorage.getItem('currentUser') || localStorage.getItem('currentUser') == "null" ) {
-            console.log("currentUser object not found");
             fb.login({provider: 'google', type: 'popup'}).then(function(user) {
                 var userObject = {
                     id : user.profile.uid,
@@ -181,7 +180,6 @@ export function userAuthorize() {
             });
         }
         else {
-            console.log("currentUser object found");
 
             dispatch({
                 type : USER_AUTHORIZE,
@@ -206,12 +204,22 @@ export function getUsers() {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('users');
-
         ref.once("value")
             .then(function(snapshot) {
+                var newUser;
+                if (getState().currentUser.get('id') in snapshot.val()) {
+                    newUser = null;
+                    console.log('user already exists');
+                }
+                else {
+                    newUser = getState().currentUser;
+                    console.log('new user adding now');
+                    ref.child(getState().currentUser.get('id')).set(getState().currentUser.get('name'));
+                }
                 dispatch({
                     type : GET_USERS,
-                    data: snapshot.val()
+                    data: snapshot.val(),
+                    newUser: newUser
                 });
             });
     }

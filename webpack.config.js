@@ -2,6 +2,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 
 var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
 
@@ -39,6 +40,10 @@ module.exports = {
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('development')
             }),
+            new Dotenv({
+                path: '.env', 
+                safe: false 
+             }),
             new ExtractTextPlugin('style.css'),
             new webpack.LoaderOptionsPlugin({
                 options: {
@@ -50,6 +55,10 @@ module.exports = {
         ]) : ([
             new ExtractTextPlugin('style.css'),
             new webpack.optimize.UglifyJsPlugin(),
+            new Dotenv({
+                path: '.env', 
+                safe: false 
+             }),
             new webpack.LoaderOptionsPlugin({
                 options: {
                     postcss: function() {

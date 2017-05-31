@@ -23,6 +23,7 @@ export default class App {
     constructor() {
         this.element = document.getElementById('app');
         this.reducers = reducers;
+        console.log(process.env.API_KEY);
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
         this.store.dispatch(actions.userAuthorize());
@@ -32,13 +33,12 @@ export default class App {
     }
 
     setUpStore() {
-        
         return createStore(this.reducers, initialState, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(getFirebase)), reactReduxFirebase(this.fbConfig)));
     }
 
     initializeFirebase() {
         return {
-            apiKey: "AIzaSyCljOquZBIV6I2of8WC0IBv--FiO4NTeuE",
+            apiKey: process.env.API_KEY,
             authDomain: "feedbackchecklist.firebaseapp.com",
             databaseURL: "https://feedbackchecklist.firebaseio.com",
             projectId: "feedbackchecklist",

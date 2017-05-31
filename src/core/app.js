@@ -23,7 +23,6 @@ export default class App {
     constructor() {
         this.element = document.getElementById('app');
         this.reducers = reducers;
-        console.log(process.env.API_KEY);
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
         this.store.dispatch(actions.userAuthorize());

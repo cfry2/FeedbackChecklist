@@ -25,7 +25,6 @@ export default class App {
         this.reducers = reducers;
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
-        this.store.dispatch(actions.userAuthorize());
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
         this.render();
         

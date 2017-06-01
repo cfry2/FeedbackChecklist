@@ -21,11 +21,19 @@ export class JobsPage extends Component {
         this.deleteJob = this.deleteJob.bind(this);
         this.authenticateUser = this.authenticateUser.bind(this);
         this.logout = this.logout.bind(this);
+        this.getUsers = this.getUsers.bind(this);
+        
     } 
 
   componentWillMount() {
       this.props.dispatch(actions.jobsRetrieve());
+      //this.props.dispatch(actions.userAuthorize());
+      this.authenticateUser();
       
+  }
+
+  getUsers() {
+    this.props.dispatch(actions.getUsers());
   }
 
   componentWillUnmount() {
@@ -42,7 +50,10 @@ export class JobsPage extends Component {
   }
 
   authenticateUser() {
-      this.props.dispatch(actions.userAuthorize());
+    this.props.dispatch(actions.userAuthorize())
+        .then((data) => {
+            this.getUsers();
+        });
   }
   logout() {
       this.props.dispatch(actions.userLogout());

@@ -164,28 +164,33 @@ export function jobsDelete(job)
 
 export function userAuthorize() {
     return function(dispatch, getState, getFirebase) {
+
         var fb = getFirebase();
-        if (!localStorage.getItem('currentUser') || localStorage.getItem('currentUser') == "null" ) {
-            fb.login({provider: 'google', type: 'popup'}).then(function(user) {
-                var userObject = {
-                    id : user.profile.uid,
-                    name : user.profile.displayName,
-                    email: user.profile.email
-                };
-                localStorage.setItem('currentUser', JSON.stringify(userObject));
+        return new Promise((resolve, reject) => {
+            if (!localStorage.getItem('currentUser') || localStorage.getItem('currentUser') == "null" ) {
+                fb.login({provider: 'google', type: 'popup'}).then(function(user) {
+                    var userObject = {
+                        id : user.profile.uid,
+                        name : user.profile.displayName,
+                        email: user.profile.email
+                    };
+                    resolve("User authorized");
+                    localStorage.setItem('currentUser', JSON.stringify(userObject));
+                    dispatch({
+                        type : USER_AUTHORIZE,
+                        user: userObject
+                    });
+                });
+            }
+            else {
+                resolve("User authorized");
                 dispatch({
                     type : USER_AUTHORIZE,
-                    user: userObject
+                    user: JSON.parse(localStorage.getItem('currentUser'))
                 });
-            });
-        }
-        else {
-
-            dispatch({
-                type : USER_AUTHORIZE,
-                user: JSON.parse(localStorage.getItem('currentUser'))
-            });
-        }
+            }
+            
+        });
     }
 }
 

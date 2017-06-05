@@ -27,7 +27,6 @@ export class JobsPage extends Component {
 
   componentWillMount() {
       this.props.dispatch(actions.jobsRetrieve());
-      //this.props.dispatch(actions.userAuthorize());
       this.authenticateUser();
       
   }

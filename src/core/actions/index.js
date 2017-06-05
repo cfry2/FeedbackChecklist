@@ -81,19 +81,18 @@ export function feedbackRetrieve(id)
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('feedback');
-        var data = [];
-        ref.once("value")
-            .then(function(snapshot) {
-                Object.keys(snapshot.val()).forEach(function(child) {
-                    if (snapshot.val()[child].jobId == id) {
-                        data.push(snapshot.val()[child]);
-                    } 
-                });
-                dispatch({
-                    type : FEEDBACK_RETRIEVE,
-                    data: data
-                });
+        ref.on("value", function(snapshot) {
+            var data = [];
+            Object.keys(snapshot.val()).forEach(function(child) {
+                if (snapshot.val()[child].jobId == id) {
+                    data.push(snapshot.val()[child]);
+                } 
             });
+            dispatch({
+                type : FEEDBACK_RETRIEVE,
+                data: data
+            });
+        });
     };
 }
 
@@ -110,13 +109,12 @@ export function jobsRetrieve()
         var fb = getFirebase();
         var ref = fb.database().ref('jobs');
 
-        ref.once("value")
-            .then(function(snapshot) {
+        ref.on("value", function(snapshot) {
                 dispatch({
                     type : JOBS_RETRIEVE,
                     data: snapshot.val()
                 });
-            });
+        })
     };
 }
 
@@ -139,9 +137,7 @@ export function jobsAdd(job)
             'jobName' : job.job
         })
         dispatch({
-            type : JOBS_ADD,
-            job: job,
-            id : pushJob.key
+            type : JOBS_ADD
         });
     }
 }
@@ -155,8 +151,7 @@ export function jobsDelete(job)
         ref.remove()
             .then(function() {
                 dispatch({
-                    type : JOBS_DELETE,
-                    job: job
+                    type : JOBS_DELETE
                 });
             });
     }
@@ -214,11 +209,9 @@ export function getUsers() {
                 var newUser;
                 if (getState().currentUser.get('id') in snapshot.val()) {
                     newUser = null;
-                    console.log('user already exists');
                 }
                 else {
                     newUser = getState().currentUser;
-                    console.log('new user adding now');
                     ref.child(getState().currentUser.get('id')).set(getState().currentUser.get('name'));
                 }
                 dispatch({

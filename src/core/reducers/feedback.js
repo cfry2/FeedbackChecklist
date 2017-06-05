@@ -6,11 +6,11 @@ import data from 'core/util/data';
 
 export default function feedback(state, action) {
     if (action.type === actions.FEEDBACK_CHANGE) {
-        return state.setIn([action.index, action.item], action.value);
+        return state;
     }
 
     if (action.type === actions.FEEDBACK_RETRIEVE) {
-
+        state = state.clear();
         let transformed = action.data.map(feedback => ({
             id : feedback.id,
             jobId : feedback.jobId ,
@@ -27,7 +27,7 @@ export default function feedback(state, action) {
 
     if (action.type === actions.FEEDBACK_ADD) {
 
-        return state.push(fromJS(action.feedback));
+        return state;
 
     }
 

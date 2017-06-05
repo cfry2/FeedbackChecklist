@@ -34,9 +34,7 @@ export class LandingPage extends Component {
   }
 
   componentWillMount() {
-
       this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
-      this.props.dispatch(actions.getUsers());
   }
 
   componentWillUnmount() {

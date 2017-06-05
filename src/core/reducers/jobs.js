@@ -6,10 +6,9 @@ import id from 'core/util/itemID';
 
 
 export default function jobs(state, action) {
-    //console.log(state);
-    //index = state.findIndex(todo => action.id === todo.get('id'));
-    if (action.type === actions.JOBS_RETRIEVE) {
 
+    if (action.type === actions.JOBS_RETRIEVE) {
+        state = state.clear();
         let transformed = Object.keys(action.data).map((key) => (
             {
                 id: key,
@@ -20,28 +19,17 @@ export default function jobs(state, action) {
         return state.concat(fromJS(transformed));
     }
 
-    //PLACEHOLDER
     if (action.type === actions.JOBS_DUMP) {
         return state.clear();
     }
 
     if (action.type === actions.JOBS_ADD) {
-
-        return state.push(Map({
-            id : action.id,
-            jobName : action.job.job
-        }))
+        return state;
 
     }
 
     if (action.type === actions.JOBS_DELETE) {
-        var toDelete;
-        state.forEach(function(obj, index) {
-            if(obj.get('id') === action.job) {
-                toDelete = index;
-            }
-        });
-        return state.delete(toDelete);
+        return state
         
     }
 

@@ -15,17 +15,17 @@ export default class Item extends Component {
           <input
             type="text"
             id="checklist__item__feedback"
-            defaultValue={this.props.feedback}
+            value={this.props.feedback}
             onChange={(e)=>this.props.onChange(this.props.id, this.props.index, 'feedback', e.target.value)}
             />
-          <select name="assignedTo" defaultValue={this.props.assignedTo} onChange={(e)=>this.props.onChange(this.props.id,this.props.index, e.target.name, e.target.value)}>
+          <select name="assignedTo" value={this.props.assignedTo} onChange={(e)=>this.props.onChange(this.props.id,this.props.index, e.target.name, e.target.value)}>
             {
                 this.props.users.map((user, index) => (
                     <option key={index} value={user.get('name')}>{user.get('name')}</option>      
                 ))
             }
           </select>
-          <select name="assignedBy" defaultValue={this.props.assignedBy} onChange={(e)=>this.props.onChange(this.props.id, this.props.index, e.target.name, e.target.value)}>
+          <select name="assignedBy" value={this.props.assignedBy} onChange={(e)=>this.props.onChange(this.props.id, this.props.index, e.target.name, e.target.value)}>
             {
                 this.props.users.map((user, index) => (
                     <option key={index} value={user.get('name')}>{user.get('name')}</option>      

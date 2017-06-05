@@ -32,7 +32,7 @@ export default function feedback(state, action) {
     }
 
     if (action.type === actions.FEEDBACK_DELETE) {
-        return state.delete(action.item);
+        return state;
     }
 
     if (action.type === actions.FEEDBACK_DUMP) {

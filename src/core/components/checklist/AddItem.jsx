@@ -30,7 +30,7 @@ export default class AddItem extends Component {
                 }
             }>
                 <input name="feedback" type="text" placeholder="assign some feedback" />
-                <select name="select">
+                <select name="select" placeholder="Assign it to..">
                     {
                         this.props.users.map((user, index) => (
                             <option key={index} value={user.get('name')}>{user.get('name')}</option>      

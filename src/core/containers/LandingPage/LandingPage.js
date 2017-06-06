@@ -21,12 +21,12 @@ export class LandingPage extends Component {
         this.handleDelete = this.handleDelete.bind(this);
         this.addItem = this.addItem.bind(this);
     } 
-  handleChange(id, index, item, value) {
-    this.props.dispatch(actions.feedbackChange(id, index, item, value));
+  handleChange(id, jobId, index, item, value) {
+    this.props.dispatch(actions.feedbackChange(id, jobId, index, item, value));
   }
 
-  handleDelete(index, id) {
-    this.props.dispatch(actions.feedbackDelete(index, id));
+  handleDelete(index, id, jobId) {
+    this.props.dispatch(actions.feedbackDelete(index, id, jobId));
   }
 
   addItem(item) {

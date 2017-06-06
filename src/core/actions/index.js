@@ -14,15 +14,16 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 
 export const GET_USERS = "GET_USERS";
 
-import { pathToJS } from 'react-redux-firebase';
+import { pathToJS, getFirebase } from 'react-redux-firebase';
 import {fromJS, Map, List} from 'immutable';
 
 
-export function feedbackChange(id, index, item, value) {
+
+export function feedbackChange(id, jobId, index, item, value) {
 
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
-        var ref = fb.database().ref('feedback/' + id);
+        var ref = fb.database().ref('jobs/'+jobId+'/feedback/' + id);
         ref.update({[item] : value});
 
         dispatch({
@@ -38,7 +39,7 @@ export function feedbackAdd(item)
 {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
-        var ref = fb.database().ref('feedback');
+        var ref = fb.database().ref('jobs/' + item.jobId + '/feedback');
         var pushJob = ref.push();
         var data = {
             'id' : pushJob.key,
@@ -60,11 +61,12 @@ export function feedbackAdd(item)
 
 }
 
-export function feedbackDelete(index, id)
+export function feedbackDelete(index, id, jobId)
 {
     return function(dispatch, getState, getFirebase) {
+        console.log(id);
         var fb = getFirebase();
-        var ref = fb.database().ref('feedback/' + id);
+        var ref = fb.database().ref('jobs/' + jobId + '/feedback/' + id);
 
         ref.remove()
             .then(function() {
@@ -80,17 +82,12 @@ export function feedbackRetrieve(id)
 {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
-        var ref = fb.database().ref('feedback');
+        var ref = fb.database().ref('jobs/' + id + '/feedback');
         ref.on("value", function(snapshot) {
             var data = [];
-            Object.keys(snapshot.val()).forEach(function(child) {
-                if (snapshot.val()[child].jobId == id) {
-                    data.push(snapshot.val()[child]);
-                } 
-            });
             dispatch({
                 type : FEEDBACK_RETRIEVE,
-                data: data
+                data: snapshot.val()
             });
         });
     };

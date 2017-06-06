@@ -16,7 +16,6 @@ export default class AddItem extends Component {
             onSubmit={
                 (e) => {
                     e.preventDefault();
-                    console.log(this.props);
                     this.props.onAdd(
                         {
                             "feedBack" : e.target.elements.feedback.value,

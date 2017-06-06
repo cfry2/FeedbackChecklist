@@ -9,14 +9,21 @@ export default function jobs(state, action) {
 
     if (action.type === actions.JOBS_RETRIEVE) {
         state = state.clear();
-        let transformed = Object.keys(action.data).map((key) => (
-            {
-                id: key,
-                jobName: action.data[key].jobName
-            }
-        ))
+        if (action.data == null || action.data == undefined) {
+            return state;
+        }
+        else {
+            let transformed = Object.keys(action.data).map((key) => (
+                {
+                    id: key,
+                    jobName: action.data[key].jobName
+                }
+            ))
+            return state.concat(fromJS(transformed));
+        }
+
         
-        return state.concat(fromJS(transformed));
+
     }
 
     if (action.type === actions.JOBS_DUMP) {

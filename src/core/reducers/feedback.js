@@ -11,18 +11,15 @@ export default function feedback(state, action) {
 
     if (action.type === actions.FEEDBACK_RETRIEVE) {
         state = state.clear();
-        let transformed = action.data.map(feedback => ({
-            id : feedback.id,
-            jobId : feedback.jobId ,
-            feedback : feedback.feedback,
-            assignedTo : feedback.assignedTo,
-            assignedBy : feedback.assignedBy,
-            completed : feedback.completed,
-            approved : feedback.approved 
-        }));
-        let feedbackObject = fromJS(transformed);
+        if (action.data == null || action.data == undefined) {
+            return state;
+        }
+        else {
+            let feedbackObject = fromJS(action.data);
 
-       return state.concat(feedbackObject);
+            return state.concat(feedbackObject);
+        }
+
     }
 
     if (action.type === actions.FEEDBACK_ADD) {

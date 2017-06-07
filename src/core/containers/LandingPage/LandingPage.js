@@ -56,6 +56,7 @@ export class LandingPage extends Component {
             jobId={this.props.match.params.jobId}
             users={this.props.users}
             currentUser={this.props.currentUser}
+            assignTo="assign to as user"
           />
       </div>
     );

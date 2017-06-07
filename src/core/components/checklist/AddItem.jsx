@@ -12,8 +12,9 @@ export default class AddItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            'assignTo' : ''
+            'assignTo' : this.props.currentUser.get('name')
         };
+
     }
   render() {
     return (
@@ -22,17 +23,15 @@ export default class AddItem extends Component {
             onSubmit={
                 (e) => {
                     e.preventDefault();
-                    console.log(e.target.elements);
                     this.props.onAdd(
                         {
                             "feedBack" : e.target.elements.feedback.value,
-                            "assignTo" : this.assignTo,
+                            "assignTo" : this.state.assignTo,
                             "assignBy" : this.props.currentUser.get('name'),
                             "jobId" : this.props.jobId
                         }
                     );
                     e.target.elements.feedback.value = '';
-                    e.target.elements.select.value = '';
                 }
             }>
                 <Toolbar>
@@ -43,9 +42,9 @@ export default class AddItem extends Component {
                             />
                             <SelectField
                                 name="select"
-                                id="selects"
-                                value={this.assignTo}
-                                onChange={(e, key, payload)=>{this.setState({'assignTo' : payload})}}
+                                id="select"
+                                value={this.state.assignTo}
+                                onChange={(e, key, payload)=>{this.setState({assignTo : payload});}}
                             >
                                 {
                                     this.props.users.map((user, index) => (
@@ -53,6 +52,7 @@ export default class AddItem extends Component {
                                     ))
                                 }
                             </SelectField>
+                            <ToolbarSeparator />
                             <RaisedButton type="submit" label="Add Feedback" primary={true} />
                     </ToolbarGroup>
                     <ToolbarGroup>

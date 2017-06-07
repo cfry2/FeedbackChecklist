@@ -10,6 +10,10 @@ import { createBrowserHistory } from 'history';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as actions from 'core/actions';
 import { reactReduxFirebase, firebaseStateReducer, getFirebase } from 'react-redux-firebase';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+
 
 //import Page from 'core/containers/page'
 import LandingPage from 'core/containers/LandingPage/LandingPage'
@@ -26,6 +30,7 @@ export default class App {
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
+        injectTapEventPlugin();
         this.render();
         
     }
@@ -47,17 +52,20 @@ export default class App {
 
     render() {
         ReactDOM.render(
-            <div>
+            <MuiThemeProvider>
                  <Provider store={this.store}>
                     <Router history={this.history}>
-                        
                         <div>
+                            <AppBar
+                                title="Feedback checklist"
+                                iconClassNameRight="muidocs-icon-navigation-expand-more"
+                            />
                             <Route exact path="/" component={JobsPage}/>
                             <Route path="/job/:jobId" component={LandingPage}/>
                         </div>
                     </Router>
                 </Provider>
-            </div>, this.element
+           </MuiThemeProvider>, this.element
         );
     }
 }

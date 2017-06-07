@@ -1,5 +1,8 @@
 
 import React, { PropTypes, Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import TextField from 'material-ui/TextField';
 //import {List} from 'immutable';
 
 
@@ -25,8 +28,17 @@ export default class AddJob extends Component {
                     e.target.elements.job.value = '';
                 }
             }>
-                <input name="job" type="text" placeholder="Job number and description" />
-                <button type="submit">Add</button>
+                <Toolbar>
+                    <ToolbarGroup>
+                        <TextField
+                            name="job"
+                            hintText="Job number and description"
+                        />
+                    </ToolbarGroup>
+                    <ToolbarGroup>
+                        <RaisedButton type="submit" label="Add Job" primary={true} />
+                    </ToolbarGroup>
+                </Toolbar>
             </form>
         </div>
     );

@@ -1,13 +1,8 @@
 
 import React, { PropTypes, Component } from 'react';
-//import {List} from 'immutable';
 
 
 export default class AddItem extends Component {
-
- /* static contextTypes = {
-    onSetTitle: PropTypes.func.isRequired
-  };*/
 
   render() {
     return (

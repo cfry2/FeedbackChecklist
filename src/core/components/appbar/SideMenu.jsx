@@ -9,7 +9,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from 'core/actions';
 
-//import {List} from 'immutable';
 
 
 export class SideMenu extends Component {

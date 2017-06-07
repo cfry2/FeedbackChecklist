@@ -45,7 +45,6 @@ export class LandingPage extends Component {
     return (
       
       <div className='LandingPage'>
-          <div><Link to="/">return</Link></div>
           <CheckList 
             feedback={this.props.feedback}
             onChange={this.handleChange}

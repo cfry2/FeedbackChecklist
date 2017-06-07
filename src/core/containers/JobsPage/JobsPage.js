@@ -4,6 +4,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckList from 'core/components/checklist/CheckList';
 import AddJob from 'core/components/jobs/AddJob';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
 //import styles from './LandingPage.scss';
 //import withStyles from '../../common/decorators/withStyles';
 
@@ -69,17 +78,30 @@ export class JobsPage extends Component {
         ) : 
 
             <div className="JobsPage__inner">
-                <a href="#" onClick={this.logout}>Logout</a>
-                <ul>
-                    {
-                        this.props.jobs.map((job, index) => (
-                            <li key={job.get('id')}>
-                                <Link to={'/job/'+job.get('id')}>{job.get('jobName')}</Link> | 
-                                <a href="#" onClick={(e)=>this.deleteJob(job.get('id'))}> Delete</a>
-                            </li>
-                        ))
-                    }
-                </ul>
+                <Table>
+                    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                        <TableRow>
+                            <TableHeaderColumn>Job Name</TableHeaderColumn>
+                            <TableHeaderColumn>Delete</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false}>
+                        {
+                            this.props.jobs.map((job, index) => (
+                                <TableRow key={job.get('id')}>
+                                    <TableRowColumn>
+                                        <Link to={'/job/'+job.get('id')}>{job.get('jobName')}</Link>
+                                    </TableRowColumn>
+                                    <TableRowColumn>
+                                        <FlatButton label="Delete" onTouchTap={(e)=>this.deleteJob(job.get('id'))} primary={true} />
+                                    </TableRowColumn>
+                                </TableRow>
+                            ))
+                        }
+                        
+                    </TableBody>
+                </Table>
+
                 <AddJob
                     onAdd={this.addJob}
                 />

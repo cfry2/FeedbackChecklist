@@ -15,10 +15,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 
 
+
 //import Page from 'core/containers/page'
-import LandingPage from 'core/containers/LandingPage/LandingPage'
-import JobsPage from 'core/containers/JobsPage/JobsPage'
-import unAuthPage from 'core/containers/unAuthPage/unAuthPage'
+import LandingPage from 'core/containers/LandingPage/LandingPage';
+import JobsPage from 'core/containers/JobsPage/JobsPage';
+import unAuthPage from 'core/containers/unAuthPage/unAuthPage';
+import SideMenu from 'core/components/appbar/SideMenu';
 //import reducers here
 import reducers , {initialState} from 'core/reducers/index';
 
@@ -58,7 +60,8 @@ export default class App {
                         <div>
                             <AppBar
                                 title="Feedback checklist"
-                                iconClassNameRight="muidocs-icon-navigation-expand-more"
+                                showMenuIconButton={false}
+                                iconElementRight={<SideMenu />}
                             />
                             <Route exact path="/" component={JobsPage}/>
                             <Route path="/job/:jobId" component={LandingPage}/>

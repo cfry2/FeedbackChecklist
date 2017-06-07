@@ -72,8 +72,9 @@ export class JobsPage extends Component {
         
       <div className='JobsPage'>
         {!this.props.currentUser.has('id') ? (
-            <div className="JobsPage__inner">
-                <p>Your are not logged in. <a href="#" onClick={this.authenticateUser}>Log in now</a></p>          
+            <div className="UnAuth-section">
+                <span>Your are not logged in</span>
+                <span><FlatButton label="Log in now" onTouchTap={this.authenticateUser} /></span>          
             </div>
         ) : 
 
@@ -98,10 +99,8 @@ export class JobsPage extends Component {
                                 </TableRow>
                             ))
                         }
-                        
                     </TableBody>
                 </Table>
-
                 <AddJob
                     onAdd={this.addJob}
                 />

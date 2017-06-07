@@ -1,2 +1,20 @@
+/**
+  * ========
+  * PARTIALS
+  * ========
+*/
+@import 'partials/settings';
+@import 'partials/base';
+
+
+/**
+  * ==========
+  * COMPONENTS
+  * ==========
+*/
+//JOBS
+@import 'jobs/AddJob';
+@import 'jobs/UnAuth';
+//CHECKLIST
 @import 'checklist/CheckListItem';
 @import 'checklist/AddItem';

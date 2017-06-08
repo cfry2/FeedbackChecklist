@@ -2,7 +2,7 @@
   "name": "feedback-checklist",
   "version": "1.0.0",
   "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
-  "main": "index.js",
+  "main": "http://feedback.localhost",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "NODE_ENV=production webpack",

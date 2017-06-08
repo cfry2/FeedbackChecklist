@@ -26,12 +26,14 @@ export class JobsPage extends Component {
         this.authenticateUser = this.authenticateUser.bind(this);
         this.logout = this.logout.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        console.log(this.props);
         
     } 
 
   componentWillMount() {
       this.props.dispatch(actions.jobsRetrieve());
       this.authenticateUser();
+      this.props.dispatch(actions.updateTitle('Feedback Checklist'));
       
   }
 
@@ -40,8 +42,7 @@ export class JobsPage extends Component {
   }
 
   componentWillUnmount() {
-      //PLACEHOLDER
-      this.props.dispatch(actions.jobsDump());
+      
   }
 
   addJob(job) {

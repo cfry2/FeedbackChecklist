@@ -14,6 +14,8 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 
 export const GET_USERS = "GET_USERS";
 
+export const UPDATE_TITLE = "UPDATE_TITLE";
+
 import { pathToJS, getFirebase } from 'react-redux-firebase';
 import {fromJS, Map, List} from 'immutable';
 
@@ -217,5 +219,13 @@ export function getUsers() {
                     newUser: newUser
                 });
             });
+    }
+}
+
+export function updateTitle(title)
+{
+    return {
+        type : UPDATE_TITLE,
+        data : title
     }
 }

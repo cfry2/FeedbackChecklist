@@ -18,6 +18,7 @@ export class LandingPage extends Component {
         this.authenticateUser = this.authenticateUser.bind(this);
         this.addItem = this.addItem.bind(this);
         this.getUsers = this.getUsers.bind(this);
+        this.updateTitle = this.updateTitle.bind(this);
     } 
   handleChange(id, jobId, index, item, value) {
     this.props.dispatch(actions.feedbackChange(id, jobId, index, item, value));
@@ -33,6 +34,19 @@ export class LandingPage extends Component {
 
   componentWillMount() {
       this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
+      this.updateTitle();
+
+  }
+  
+  updateTitle() {
+      var newTitle;
+      this.props.jobs.forEach((map) => {
+        var result = map.includes(this.props.match.params.jobId);
+        if (result) {
+          newTitle = map.get('jobName');
+        }
+      });
+      this.props.dispatch(actions.updateTitle('Feedback Checklist / ' + newTitle));
   }
 
   componentWillUnmount() {

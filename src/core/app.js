@@ -21,6 +21,7 @@ import LandingPage from 'core/containers/LandingPage/LandingPage';
 import JobsPage from 'core/containers/JobsPage/JobsPage';
 import unAuthPage from 'core/containers/unAuthPage/unAuthPage';
 import SideMenu from 'core/components/appbar/SideMenu';
+import Title from 'core/components/appbar/title';
 //import reducers here
 import reducers , {initialState} from 'core/reducers/index';
 
@@ -28,6 +29,7 @@ import reducers , {initialState} from 'core/reducers/index';
 export default class App {
     constructor() {
         this.element = document.getElementById('app');
+        document.title = 'Feedback Checklist';
         this.reducers = reducers;
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
@@ -59,7 +61,7 @@ export default class App {
                     <Router history={this.history}>
                         <div>
                             <AppBar
-                                title="Feedback checklist"
+                                title={<Title />}
                                 showMenuIconButton={false}
                                 iconElementRight={<SideMenu />}
                             />

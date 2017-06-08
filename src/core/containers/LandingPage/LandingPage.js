@@ -4,22 +4,20 @@ import { connect } from 'react-redux';
 import CheckList from 'core/components/checklist/CheckList';
 import { Link } from 'react-router-dom';
 import AddItem from 'core/components/checklist/AddItem';
-//import styles from './LandingPage.scss';
-//import withStyles from '../../common/decorators/withStyles';
+import UnAuth from 'core/containers/unAuthPage/unAuthPage';
 
 import * as actions from 'core/actions';
 
 export class LandingPage extends Component {
 
- /* static contextTypes = {
-    onSetTitle: PropTypes.func.isRequired
-  };*/
 
   constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.authenticateUser = this.authenticateUser.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.getUsers = this.getUsers.bind(this);
     } 
   handleChange(id, jobId, index, item, value) {
     this.props.dispatch(actions.feedbackChange(id, jobId, index, item, value));
@@ -41,10 +39,23 @@ export class LandingPage extends Component {
       this.props.dispatch(actions.feedbackDump());
   }
 
+  getUsers() {
+    this.props.dispatch(actions.getUsers());
+  }
+
+  authenticateUser() {
+    this.props.dispatch(actions.userAuthorize())
+        .then((data) => {
+            this.getUsers();
+        });
+  }
+
+
   render() {
     return (
-      
       <div className='LandingPage'>
+        {!this.props.currentUser.has('id') ? window.location = '/' : 
+        <div className="LandingPage__inner">
           <CheckList 
             feedback={this.props.feedback}
             onChange={this.handleChange}
@@ -58,7 +69,10 @@ export class LandingPage extends Component {
             currentUser={this.props.currentUser}
             assignTo="assign to as user"
           />
-      </div>
+        </div>
+      
+        }
+        </div>
     );
   }
 

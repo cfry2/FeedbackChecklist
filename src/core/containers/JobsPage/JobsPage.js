@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckList from 'core/components/checklist/CheckList';
 import AddJob from 'core/components/jobs/AddJob';
+import UnAuth from 'core/containers/unAuthPage/unAuthPage';
 import {
   Table,
   TableBody,
@@ -13,16 +14,10 @@ import {
   TableRowColumn,
 } from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
-//import styles from './LandingPage.scss';
-//import withStyles from '../../common/decorators/withStyles';
 
 import * as actions from 'core/actions';
 
 export class JobsPage extends Component {
-
- /* static contextTypes = {
-    onSetTitle: PropTypes.func.isRequired
-  };*/
 
   constructor(props) {
         super(props);
@@ -72,10 +67,7 @@ export class JobsPage extends Component {
         
       <div className='JobsPage'>
         {!this.props.currentUser.has('id') ? (
-            <div className="UnAuth-section">
-                <span>Your are not logged in</span>
-                <span><FlatButton label="Log in now" onTouchTap={this.authenticateUser} /></span>          
-            </div>
+            < UnAuth authenticateUser={this.authenticateUser} />
         ) : 
 
             <div className="JobsPage__inner">

@@ -48,6 +48,7 @@ export default class App {
 
     setUpTheme() {
         return getMuiTheme({
+            fontFamily: sass.avenir,
             palette: {
                 textColor: sass.bodyFontColor,
                 primary1Color: sass.viGreen,

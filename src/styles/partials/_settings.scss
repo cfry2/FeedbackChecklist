@@ -30,6 +30,13 @@ $vi-blue: #00B1FF;
 */
 
 $vi-font:  'VI', 'Avenir Black', 'Hevetica Neue', Helvetica, Arial, sans-serif;
+$avenir:  'Avenir', 'Hevetica Neue', Helvetica, Arial, sans-serif;
+
+/**
+  * ========
+  * EXPORT
+  * ========
+*/
 
 :export {
   bodyBackground: $body-background;
@@ -48,5 +55,6 @@ $vi-font:  'VI', 'Avenir Black', 'Hevetica Neue', Helvetica, Arial, sans-serif;
   viBlack: $vi-black;
   viBlue: $vi-blue;
   viFont: $vi-font;
+  avenir: $avenir;
 
 }

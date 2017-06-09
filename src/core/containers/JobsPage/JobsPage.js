@@ -84,7 +84,7 @@ export class JobsPage extends Component {
                             this.props.jobs.map((job, index) => (
                                 <TableRow key={job.get('id')}>
                                     <TableRowColumn>
-                                        <Link to={'/job/'+job.get('id')}>{job.get('jobName')}</Link>
+                                        <Link className="JobsPage__link" to={'/job/'+job.get('id')}>{job.get('jobName')}</Link>
                                     </TableRowColumn>
                                     <TableRowColumn>
                                         <FlatButton label="Delete" onTouchTap={(e)=>this.deleteJob(job.get('id'))} primary={true} />

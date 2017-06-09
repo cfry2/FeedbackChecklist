@@ -3,7 +3,10 @@
   * PARTIALS
   * ========
 */
+
+@import 'partials/fonts';
 @import 'partials/settings';
+@import 'partials/mixins';
 @import 'partials/base';
 
 
@@ -12,6 +15,10 @@
   * COMPONENTS
   * ==========
 */
+
+//APP BAR
+@import 'app-bar/title';
+
 //JOBS
 @import 'jobs/AddJob';
 @import 'jobs/UnAuth';

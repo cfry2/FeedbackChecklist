@@ -1,3 +1,52 @@
 
-//colors
+/**
+  * ========
+  * COLOURS
+  * ========
+*/
+
 $body-background: #f2f2f2;
+$primary-color: #542280;
+$secondary-color: #2c9da9;
+$vi-pink: #e41b4f;
+$body-font-color: #808080;
+$header-font-color: #222222;
+
+$vi-pink: #e02253;
+//$vi-green: #cce3da;
+$vi-green: #2c9da9;
+$vi-green-darker: #a4c3b7;
+$vi-grey: #808080;
+$vi-dark-grey: #333231;
+$vi-light-grey: #e5e5e5;
+$vi-purple: #542280;
+$vi-black: #1a1a1a;
+$vi-blue: #00B1FF;
+
+/**
+  * ========
+  * FONTS
+  * ========
+*/
+
+$vi-font:  'VI', 'Avenir Black', 'Hevetica Neue', Helvetica, Arial, sans-serif;
+
+:export {
+  bodyBackground: $body-background;
+  primaryColor: $primary-color;
+  secondaryColor: $secondary-color;
+  viPink: $vi-pink;
+  bodyFontColor: $body-font-color;
+  headerFontColor: $header-font-color;
+  viPink: $vi-pink;
+  viGreen: $vi-green;
+  viGreenDarker: $vi-green-darker;
+  viGrey: $vi-grey;
+  viDarkGrey: $vi-dark-grey;
+  viLightGrey: $vi-light-grey;
+  viPurple: $vi-purple;
+  viBlack: $vi-black;
+  viBlue: $vi-blue;
+  viFont: $vi-font;
+
+}

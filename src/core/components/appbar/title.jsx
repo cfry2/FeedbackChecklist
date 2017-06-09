@@ -23,7 +23,7 @@ export class Title extends Component {
 
   render() {
     return (
-        <div>{this.props.title}</div>
+        <div className="app-bar__title">{this.props.title}</div>
     );
   } 
 

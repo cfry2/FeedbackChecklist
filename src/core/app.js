@@ -12,7 +12,9 @@ import * as actions from 'core/actions';
 import { reactReduxFirebase, firebaseStateReducer, getFirebase } from 'react-redux-firebase';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import AppBar from 'material-ui/AppBar';
+import sass from 'styles/partials/_settings';
 
 
 
@@ -33,6 +35,7 @@ export default class App {
         this.reducers = reducers;
         this.fbConfig = this.initializeFirebase();
         this.store = this.setUpStore();
+        this.theme = this.setUpTheme();
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
         injectTapEventPlugin();
         this.render();
@@ -41,6 +44,16 @@ export default class App {
 
     setUpStore() {
         return createStore(this.reducers, initialState, composeWithDevTools(applyMiddleware(thunk.withExtraArgument(getFirebase)), reactReduxFirebase(this.fbConfig)));
+    }
+
+    setUpTheme() {
+        return getMuiTheme({
+            palette: {
+                textColor: sass.bodyFontColor,
+                primary1Color: sass.viGreen,
+                accent1Color: sass.viPink
+            }
+        })
     }
 
     initializeFirebase() {
@@ -56,12 +69,15 @@ export default class App {
 
     render() {
         ReactDOM.render(
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={this.theme}>
                  <Provider store={this.store}>
                     <Router history={this.history}>
                         <div>
                             <AppBar
                                 title={<Title />}
+                                style={{
+                                    backgroundColor: sass.viPurple
+                                }}
                                 showMenuIconButton={false}
                                 iconElementRight={<SideMenu />}
                             />

@@ -28,6 +28,10 @@ module.exports = {
             {
                 test: /\.s?css$/,
                 loader: ExtractTextPlugin.extract('css-loader?-minimize!postcss-loader?!sass-loader?')
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=public/fonts/[name].[ext]'
             }
         ]
     },

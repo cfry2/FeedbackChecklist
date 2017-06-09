@@ -3,8 +3,7 @@ import React, { PropTypes, Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
 import TextField from 'material-ui/TextField';
-
-//import {List} from 'immutable';
+import sass from 'styles/partials/_settings';
 
 
 export default class AddJob extends Component {
@@ -37,7 +36,14 @@ export default class AddJob extends Component {
                         />
                     </ToolbarGroup>
                     <ToolbarGroup>
-                        <RaisedButton type="submit" label="Add Job" primary={true} />
+                        <RaisedButton
+                            type="submit" 
+                            label="Add Job" 
+                            primary={true} 
+                            buttonStyle={{
+                                backgroundColor: sass.viGreen
+                            }}
+                        />
                     </ToolbarGroup>
                 </Toolbar>
             </form>

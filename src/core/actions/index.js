@@ -158,7 +158,7 @@ export function jobsDelete(job)
 
 export function userAuthorize() {
     return function(dispatch, getState, getFirebase) {
-
+        console.log('hello');
         var fb = getFirebase();
         return new Promise((resolve, reject) => {
             if (!localStorage.getItem('currentUser') || localStorage.getItem('currentUser') == "null" ) {

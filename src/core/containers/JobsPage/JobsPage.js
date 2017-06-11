@@ -32,7 +32,7 @@ export class JobsPage extends Component {
 
   componentWillMount() {
       this.props.dispatch(actions.jobsRetrieve());
-      this.authenticateUser();
+      //this.authenticateUser();
       this.props.dispatch(actions.updateTitle('Feedback Checklist'));
       
   }

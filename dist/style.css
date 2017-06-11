@@ -1,8 +1,39 @@
 /**
   * ========
+  * COLOURS
+  * ========
+*/
+/**
+  * ========
+  * FONTS
+  * ========
+*/
+/**
+  * ========
+  * EXPORT
+  * ========
+*/
+/**
+  * ========
   * PARTIALS
   * ========
 */
+/**
+  * ========
+  * COLOURS
+  * ========
+*/
+/**
+  * ========
+  * FONTS
+  * ========
+*/
+/**
+  * ========
+  * EXPORT
+  * ========
+*/
+
 body {
   background: #f2f2f2;
   margin: 0;
@@ -13,6 +44,16 @@ body {
   * COMPONENTS
   * ==========
 */
+.app-bar__title {
+  text-transform: uppercase;
+  font-family: "VI", "Avenir Black", "Hevetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.15em; }
+
+.JobsPage__link {
+  text-decoration: none;
+  font-size: 20px;
+  color: #e02253; }
+
 .addjob {
   position: fixed;
   bottom: 0;

@@ -38,7 +38,7 @@ export default class AddItem extends Component {
                     <ToolbarGroup>
                             <TextField
                                 name="feedback"
-                                hintText="assign some feedback"
+                                hintText="Assign Some Feedback"
                             />
                             <SelectField
                                 name="select"

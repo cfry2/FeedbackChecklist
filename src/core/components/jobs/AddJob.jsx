@@ -32,7 +32,7 @@ export default class AddJob extends Component {
                     <ToolbarGroup>
                         <TextField
                             name="job"
-                            hintText="Job number and description"
+                            hintText="Job Number and Description"
                         />
                     </ToolbarGroup>
                     <ToolbarGroup>

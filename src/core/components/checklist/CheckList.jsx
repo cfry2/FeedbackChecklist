@@ -19,11 +19,11 @@ export default class CheckList extends Component {
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow>
                             <TableHeaderColumn>Feedback</TableHeaderColumn>
-                            <TableHeaderColumn>Assigned to</TableHeaderColumn>
-                            <TableHeaderColumn>Assigned by</TableHeaderColumn>
-                            <TableHeaderColumn>completed</TableHeaderColumn>
-                            <TableHeaderColumn>approved</TableHeaderColumn>
-                            <TableHeaderColumn>delete</TableHeaderColumn>
+                            <TableHeaderColumn>Assigned To</TableHeaderColumn>
+                            <TableHeaderColumn>Assigned By</TableHeaderColumn>
+                            <TableHeaderColumn>Completed</TableHeaderColumn>
+                            <TableHeaderColumn>Approved</TableHeaderColumn>
+                            <TableHeaderColumn>Delete</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>

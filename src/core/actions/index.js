@@ -29,10 +29,7 @@ export function feedbackChange(id, jobId, index, item, value) {
         ref.update({[item] : value});
 
         dispatch({
-            type : FEEDBACK_CHANGE,
-            index : index,
-            item: item,
-            value : value
+            type : FEEDBACK_CHANGE
         });
     }
 }
@@ -56,8 +53,7 @@ export function feedbackAdd(item)
         pushJob.set(data);
 
         dispatch({
-            type : FEEDBACK_ADD,
-            feedback : data
+            type : FEEDBACK_ADD
         });
     }
 
@@ -73,8 +69,7 @@ export function feedbackDelete(index, id, jobId)
         ref.remove()
             .then(function() {
                 dispatch({
-                    type : FEEDBACK_DELETE,
-                    item: index
+                    type : FEEDBACK_DELETE
                 });
             });
     }

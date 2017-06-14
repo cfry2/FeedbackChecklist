@@ -3,6 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+var WebpackAutoInject = require('webpack-auto-inject-version');
 
 var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
 
@@ -60,6 +61,7 @@ module.exports = {
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify('production')
             }),
+            new WebpackAutoInject(),
             new ExtractTextPlugin('style.css'),
             new webpack.optimize.UglifyJsPlugin(),
             new Dotenv({

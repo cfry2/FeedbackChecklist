@@ -1,4 +1,3 @@
-// Remove click delay
 const express = require('express');
 const server = express();
 var path = require('path');

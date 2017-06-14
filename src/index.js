@@ -7,5 +7,5 @@ import style from 'styles/style';
 if(document && document.body) {
     fastclick.attach(document.body);
 }
-//console.log('hello 1');
+
 new App();

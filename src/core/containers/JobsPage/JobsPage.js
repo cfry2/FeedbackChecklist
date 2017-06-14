@@ -26,7 +26,6 @@ export class JobsPage extends Component {
         this.authenticateUser = this.authenticateUser.bind(this);
         this.logout = this.logout.bind(this);
         this.getUsers = this.getUsers.bind(this);
-        console.log(this.props);
         
     } 
 

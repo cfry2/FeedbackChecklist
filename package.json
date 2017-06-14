@@ -1,6 +1,6 @@
 {
     "name": "VIFeedbackChecklist",
-    "version": "1.2.0",
+    "version": "1.2.4",
     "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
     "main": "http://localhost:3000",
     "node-main": "./server.js",

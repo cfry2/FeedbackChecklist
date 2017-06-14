@@ -20,7 +20,7 @@ export class unAuthPage extends Component {
     return (
         <div className="UnAuth-section">
             <span>Your are not logged in</span>
-            <span><FlatButton label="Log in now" onTouchTap={this.authenticateUser} /></span>          
+            <span><FlatButton label="Log in now" onTouchTap={this.props.authenticateUser} /></span>          
         </div>
     );
   }

@@ -5,3 +5,5 @@ node_modules
 _env.scss
 nwjs.app
 src/assets/fonts
+dist/public/fonts
+dist/public/fonts/

@@ -1,4 +1,4 @@
-/** [AIV]  Build version: 1.1.0 - Wednesday, June 14th, 2017, 2:39:29 PM  **/ 
+/** [AIV]  Build version: 1.2.0 - Wednesday, June 14th, 2017, 3:14:51 PM  **/ 
  /**
   * ========
   * COLOURS
@@ -14,5 +14,91 @@
   * EXPORT
   * ========
 */
+/**
+  * ========
+  * PARTIALS
+  * ========
+*/
+@font-face {
+  font-family: 'VI';
+  src: url(public/fonts/vi_type_06-webfont.eot);
+  src: url(public/fonts/vi_type_06-webfont.eot?#iefix) format("embedded-opentype"), url(public/fonts/vi_type_06-webfont.woff2) format("woff2"), url(public/fonts/vi_type_06-webfont.woff) format("woff"), url(public/fonts/vi_type_06-webfont.ttf) format("truetype"), url(public/fonts/vi_type_06-webfont.svg#vi_typeblack) format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'Avenir';
+  src: url(public/fonts/Avenir.otf) format("opentype"), url(public/fonts/Avenir.woff) format("woff"); }
+
+/**
+  * ========
+  * COLOURS
+  * ========
+*/
+/**
+  * ========
+  * FONTS
+  * ========
+*/
+/**
+  * ========
+  * EXPORT
+  * ========
+*/
+
+body {
+  background: #f2f2f2;
+  margin: 0;
+  font-family: "Hevetica Neue",Helvetica,Arial,sans-serif; }
+
+/**
+  * ==========
+  * COMPONENTS
+  * ==========
+*/
+.app-bar__title {
+  text-transform: uppercase;
+  font-family: "VI", "Avenir Black", "Hevetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 0.15em; }
+
+.JobsPage__link {
+  text-decoration: none;
+  font-size: 20px;
+  color: #e02253; }
+
+.addjob {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 1; }
+
+.UnAuth-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%); }
+  .UnAuth-section span {
+    display: block;
+    text-align: center;
+    margin-bottom: 5px; }
+
+.checklist__items {
+  list-style: none;
+  padding-left: 0; }
+
+.checklist__item__inner span {
+  display: inline-block;
+  width: 15%; }
+  .checklist__item__inner span:first-child {
+    width: 40%; }
+
+.additem {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 1; }
+  .additem form {
+    display: inline; }
 
 /*# sourceMappingURL=style.css.map*/ 

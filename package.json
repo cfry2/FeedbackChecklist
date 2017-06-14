@@ -1,11 +1,12 @@
 {
     "name": "VIFeedbackChecklist",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
     "main": "http://localhost:3000",
     "node-main": "./server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "NODE_ENV=production webpack",
         "build-major": "NODE_ENV=production webpack --env.major",
         "build-minor": "NODE_ENV=production webpack --env.minor",
         "build-patch": "NODE_ENV=production webpack --env.patch",

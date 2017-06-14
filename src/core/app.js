@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { browserHistory, IndexRoute, Switch} from 'react-router';
-import { Link, BrowserRouter as Router, Route} from 'react-router-dom';
+import { browserHistory, IndexRoute, Switch } from 'react-router';
+import { Link, BrowserRouter as Router, Route, hashHistory, Redirect} from 'react-router-dom';
 import thunk from 'redux-thunk';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
 import { createBrowserHistory } from 'history';
@@ -37,6 +37,7 @@ export default class App {
         this.store = this.setUpStore();
         this.theme = this.setUpTheme();
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
+        //this.history = hashHistory
         injectTapEventPlugin();
         this.render();
         
@@ -82,6 +83,7 @@ export default class App {
                                 showMenuIconButton={false}
                                 iconElementRight={<SideMenu />}
                             />
+                            {window.location.pathname.includes('index.html') && <Redirect to="/" />}
                             <Route exact path="/" component={JobsPage}/>
                             <Route path="/job/:jobId" component={LandingPage}/>
                         </div>

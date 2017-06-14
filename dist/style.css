@@ -1,4 +1,4 @@
-/** [AIV]  Build version: 1.2.4 - Wednesday, June 14th, 2017, 4:24:38 PM  **/ 
+/** [AIV]  Build version: 0.2.10 - Wednesday, June 14th, 2017, 8:17:16 PM  **/ 
  /**
   * ========
   * COLOURS
@@ -19,17 +19,6 @@
   * PARTIALS
   * ========
 */
-@font-face {
-  font-family: 'VI';
-  src: url(public/fonts/vi_type_06-webfont.eot);
-  src: url(public/fonts/vi_type_06-webfont.eot?#iefix) format("embedded-opentype"), url(public/fonts/vi_type_06-webfont.woff2) format("woff2"), url(public/fonts/vi_type_06-webfont.woff) format("woff"), url(public/fonts/vi_type_06-webfont.ttf) format("truetype"), url(public/fonts/vi_type_06-webfont.svg#vi_typeblack) format("svg");
-  font-weight: normal;
-  font-style: normal; }
-
-@font-face {
-  font-family: 'Avenir';
-  src: url(public/fonts/Avenir.otf) format("opentype"), url(public/fonts/Avenir.woff) format("woff"); }
-
 /**
   * ========
   * COLOURS

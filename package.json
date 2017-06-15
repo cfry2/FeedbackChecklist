@@ -1,6 +1,6 @@
 {
     "name": "VIFeedbackChecklist",
-    "version": "0.2.10",
+    "version": "0.2.15",
     "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
     "main": "electron.js",
     "node-main": "./server.js",
@@ -15,6 +15,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "axios": "^0.16.2",
         "dotenv": "^4.0.0",
         "dotenv-webpack": "^1.5.0",
         "electron-json-storage": "^3.0.5",

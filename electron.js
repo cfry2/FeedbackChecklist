@@ -1,6 +1,7 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
+require('dotenv').config()
 //const server = require('./server.js')
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -51,3 +52,4 @@ app.on('activate', () => {
     createWindow()
   }
 })
+

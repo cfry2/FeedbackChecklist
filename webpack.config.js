@@ -18,6 +18,9 @@ module.exports = {
         modules: ['node_modules', path.resolve(__dirname, 'src')]
 
     },
+    node: {
+        fs: 'empty'
+    },
     devtool : 'source-map',
     module: {
         loaders : [

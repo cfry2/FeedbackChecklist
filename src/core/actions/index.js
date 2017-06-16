@@ -18,6 +18,7 @@ export const UPDATE_TITLE = "UPDATE_TITLE";
 
 import { pathToJS, getFirebase } from 'react-redux-firebase';
 import {fromJS, Map, List} from 'immutable';
+import {googleSignIn} from 'native/auth';
 
 
 
@@ -153,22 +154,21 @@ export function jobsDelete(job)
 
 export function userAuthorize() {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
         return new Promise((resolve, reject) => {
             if (!localStorage.getItem('currentUser') || localStorage.getItem('currentUser') == "null" ) {
-                fb.login({provider: 'google', type: 'popup'}).then(function(user) {
+                const data = googleSignIn().then(function(data) {
                     var userObject = {
-                        id : user.profile.uid,
-                        name : user.profile.displayName,
-                        email: user.profile.email
+                        id : data.uid,
+                        name : data.displayName,
+                        email: data.email
                     };
                     resolve("User authorized");
-                    localStorage.setItem('currentUser', JSON.stringify(userObject));
                     dispatch({
                         type : USER_AUTHORIZE,
                         user: userObject
                     });
                 });
+
             }
             else {
                 resolve("User authorized");

@@ -1,5 +1,5 @@
 import {parse} from 'url'
-import {remote} from 'electron'
+const electron = window.require('electron');
 import axios from 'axios'
 import qs from 'qs'
 
@@ -8,6 +8,7 @@ const GOOGLE_TOKEN_URL = 'https://www.googleapis.com/oauth2/v4/token'
 const GOOGLE_PROFILE_URL = 'https://www.googleapis.com/userinfo/v2/me'
 const GOOGLE_REDIRECT_URI = process.env.REDIRECT_URI;
 const GOOGLE_CLIENT_ID = process.env.CLIENT_ID;
+
 
 export async function googleSignIn () {
   const code = await signInWithPopup()
@@ -19,13 +20,12 @@ export async function googleSignIn () {
     displayName: name,
     idToken: tokens.id_token,
   }
-
-  return mySignInFunction(providerUser)
+  return providerUser
 }
 
 export function signInWithPopup () {
   return new Promise((resolve, reject) => {
-    const authWindow = new remote.BrowserWindow({
+    const authWindow = new electron.remote.BrowserWindow({
       width: 500,
       height: 600,
       show: true,

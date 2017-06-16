@@ -4,10 +4,10 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 var WebpackAutoInject = require('webpack-auto-inject-version');
-
-var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
-
-module.exports = {
+//const webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
+//var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
+var dev = true;
+let options = {
     entry : './src/index.js',
     output : {
         path: path.join(__dirname, "/dist/") ,
@@ -80,6 +80,9 @@ module.exports = {
             }),
         ])  
     )
-
-    
 }
+
+
+//options.target = webpackTargetElectronRenderer(options);
+
+module.exports = options

@@ -1,12 +1,13 @@
 {
     "name": "VIFeedbackChecklist",
-    "version": "0.2.15",
+    "version": "0.3.0",
     "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
     "main": "electron.js",
     "node-main": "./server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "NODE_ENV=production webpack",
+        "build": "webpack",
+        "electron": "webpack && electron . --development",
         "build-major": "NODE_ENV=production webpack --env.major",
         "build-minor": "NODE_ENV=production webpack --env.minor",
         "build-patch": "NODE_ENV=production webpack --env.patch",
@@ -60,6 +61,7 @@
         "style-loader": "^0.13.2",
         "webpack": "^2.2.1",
         "webpack-auto-inject-version": "^0.5.14",
-        "webpack-dev-server": "^2.4.2"
+        "webpack-dev-server": "^2.4.2",
+        "webpack-target-electron-renderer": "^0.4.0"
     }
 }

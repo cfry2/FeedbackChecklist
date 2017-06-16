@@ -8,5 +8,4 @@ import style from 'styles/style';
 if(document && document.body) {
     fastclick.attach(document.body);
 }
-
 new App();

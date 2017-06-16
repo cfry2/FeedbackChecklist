@@ -1681,7 +1681,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.UPDATE_TITLE = exports.GET_USERS = exports.USER_LOGOUT = exports.USER_AUTHORIZE = exports.JOBS_DELETE = exports.JOBS_ADD = exports.JOBS_DUMP = exports.JOBS_RETRIEVE = exports.FEEDBACK_DUMP = exports.FEEDBACK_DELETE = exports.FEEDBACK_ADD = exports.FEEDBACK_CHANGE = exports.FEEDBACK_RETRIEVE = undefined;
+exports.UPDATE_TITLE = exports.GET_USERS = exports.USER_NOTIFY = exports.USER_LOGOUT = exports.USER_AUTHORIZE = exports.JOBS_DELETE = exports.JOBS_ADD = exports.JOBS_DUMP = exports.JOBS_RETRIEVE = exports.FEEDBACK_DUMP = exports.FEEDBACK_DELETE = exports.FEEDBACK_ADD = exports.FEEDBACK_CHANGE = exports.FEEDBACK_RETRIEVE = undefined;
 
 var _promise = __webpack_require__(165);
 
@@ -1703,6 +1703,7 @@ exports.jobsDelete = jobsDelete;
 exports.userAuthorize = userAuthorize;
 exports.userLogout = userLogout;
 exports.getUsers = getUsers;
+exports.notifyNewFeedback = notifyNewFeedback;
 exports.updateTitle = updateTitle;
 
 var _reactReduxFirebase = __webpack_require__(236);
@@ -1726,6 +1727,7 @@ var JOBS_DELETE = exports.JOBS_DELETE = 'JOBS_DELETE';
 
 var USER_AUTHORIZE = exports.USER_AUTHORIZE = 'USER_AUTHORIZE';
 var USER_LOGOUT = exports.USER_LOGOUT = 'USER_LOGOUT';
+var USER_NOTIFY = exports.USER_NOTIFY = 'USER_NOTIFY';
 
 var GET_USERS = exports.GET_USERS = "GET_USERS";
 
@@ -1759,8 +1761,6 @@ function feedbackAdd(item) {
             'approved': false
         };
 
-        pushJob.set(data);
-
         dispatch({
             type: FEEDBACK_ADD
         });
@@ -1769,7 +1769,6 @@ function feedbackAdd(item) {
 
 function feedbackDelete(index, id, jobId) {
     return function (dispatch, getState, getFirebase) {
-        console.log(id);
         var fb = getFirebase();
         var ref = fb.database().ref('jobs/' + jobId + '/feedback/' + id);
 
@@ -1905,6 +1904,30 @@ function getUsers() {
                 data: snapshot.val(),
                 newUser: newUser
             });
+        });
+    };
+}
+
+function notifyNewFeedback(user, job) {
+    return function (dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var itemAdded = false;
+
+        var ref = fb.database().ref('jobs/' + job + '/feedback');
+        ref.on('child_added', function (data) {
+            if (!itemAdded) {
+                //return
+            } else {
+                console.log(data.val());
+            }
+        });
+
+        ref.once('value', function (data) {
+            itemAdded = true;
+        });
+
+        dispatch({
+            type: USER_NOTIFY
         });
     };
 }
@@ -46989,6 +47012,7 @@ var LandingPage = exports.LandingPage = function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
+      this.props.dispatch(actions.notifyNewFeedback(this.props.currentUser.get('name'), this.props.match.params.jobId));
       this.updateTitle();
     }
   }, {
@@ -47098,6 +47122,10 @@ function currentUser(state, action) {
     if (action.type === actions.USER_LOGOUT) {
 
         return state.clear();
+    }
+
+    if (action.type === actions.USER_NOTIFY) {
+        return state;
     }
 
     return state;

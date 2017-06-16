@@ -11,10 +11,12 @@ export const JOBS_DELETE = 'JOBS_DELETE';
 
 export const USER_AUTHORIZE = 'USER_AUTHORIZE';
 export const USER_LOGOUT = 'USER_LOGOUT';
+export const USER_NOTIFY = 'USER_NOTIFY';
 
 export const GET_USERS = "GET_USERS";
 
 export const UPDATE_TITLE = "UPDATE_TITLE";
+
 
 import { pathToJS, getFirebase } from 'react-redux-firebase';
 import {fromJS, Map, List} from 'immutable';
@@ -51,8 +53,6 @@ export function feedbackAdd(item)
             'approved' : false
         }
 
-        pushJob.set(data);
-
         dispatch({
             type : FEEDBACK_ADD
         });
@@ -63,7 +63,6 @@ export function feedbackAdd(item)
 export function feedbackDelete(index, id, jobId)
 {
     return function(dispatch, getState, getFirebase) {
-        console.log(id);
         var fb = getFirebase();
         var ref = fb.database().ref('jobs/' + jobId + '/feedback/' + id);
 
@@ -213,6 +212,33 @@ export function getUsers() {
                     newUser: newUser
                 });
             });
+    }
+}
+
+export function notifyNewFeedback(user, job) {
+    return function(dispatch, getState, getFirebase) {
+        var fb = getFirebase();
+        var itemAdded = false;
+
+        var ref = fb.database().ref('jobs/' + job + '/feedback');
+        ref.on('child_added', function(data) {
+            if (!itemAdded) { 
+                //return
+            }
+            else {
+                console.log(data.val());
+            }
+            
+        });
+
+        ref.once('value', (data) => {
+            itemAdded = true;
+        })
+
+        dispatch({
+            type : USER_NOTIFY
+        });
+
     }
 }
 

@@ -21,5 +21,9 @@ export default function currentUser(state, action) {
         
     }
 
+    if (action.type === actions.USER_NOTIFY) {
+        return state;
+    }
+
     return state;
 }

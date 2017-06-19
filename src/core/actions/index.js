@@ -42,16 +42,16 @@ export function feedbackAdd(item)
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('jobs/' + item.jobId + '/feedback');
-        var pushJob = ref.push();
-        var data = {
-            'id' : pushJob.key,
+        var pushFeedback = ref.push();
+        pushFeedback.set({
+            'id' : pushFeedback.key,
             'jobId' : item.jobId,
             'feedback' : item.feedBack,
             'assignedTo' : item.assignTo,
             'assignedBy' : item.assignBy,
             'completed' : false,
             'approved' : false
-        }
+        });
 
         dispatch({
             type : FEEDBACK_ADD

@@ -5,8 +5,8 @@ const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
 const WebpackAutoInject = require('webpack-auto-inject-version');
 
-var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
-//var dev = true;
+//var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
+var dev = true;
 let options = {
     entry : './src/index.js',
     output : {

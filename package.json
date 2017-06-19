@@ -1,6 +1,6 @@
 {
     "name": "VIFeedbackChecklist",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "a checklist app that im building in hopes to make a more efficient feedback process for eDM's with hopes of potentially increasing scope for other things.",
     "main": "electron.js",
     "node-main": "./server.js",
@@ -48,6 +48,7 @@
         "babel-preset-react": "^6.23.0",
         "css-loader": "^0.27.3",
         "electron": "^1.6.11",
+        "electron-devtools-installer": "^2.2.0",
         "eslint": "^3.17.1",
         "eslint-loader": "^1.6.3",
         "eslint-plugin-react": "^6.10.0",

@@ -215,7 +215,7 @@ export function getUsers() {
     }
 }
 
-export function notifyNewFeedback(user, job) {
+/*export function notifyNewFeedback(user, job) {
     return function(dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var itemAdded = false;
@@ -240,7 +240,7 @@ export function notifyNewFeedback(user, job) {
         });
 
     }
-}
+}*/
 
 export function updateTitle(title)
 {

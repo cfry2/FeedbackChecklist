@@ -21,6 +21,7 @@ export const UPDATE_TITLE = "UPDATE_TITLE";
 import { pathToJS, getFirebase } from 'react-redux-firebase';
 import {fromJS, Map, List} from 'immutable';
 import {googleSignIn} from 'native/auth';
+const storage = window.require('electron-json-storage');
 
 
 
@@ -161,6 +162,7 @@ export function userAuthorize() {
                         name : data.displayName,
                         email: data.email
                     };
+                    localStorage.setItem('currentUser', JSON.stringify(userObject));
                     resolve("User authorized");
                     dispatch({
                         type : USER_AUTHORIZE,

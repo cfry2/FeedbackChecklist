@@ -19,9 +19,8 @@ import sass from 'styles/partials/_settings';
 
 
 //import Page from 'core/containers/page'
-import LandingPage from 'core/containers/LandingPage/LandingPage';
-import JobsPage from 'core/containers/JobsPage/JobsPage';
-import unAuthPage from 'core/containers/unAuthPage/unAuthPage';
+import LandingPage from 'core/containers/LandingPage';
+import JobsPage from 'core/containers/JobsPage';
 import SideMenu from 'core/components/appbar/SideMenu';
 import Title from 'core/components/appbar/title';
 //import reducers here

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import CheckList from 'core/components/checklist/CheckList';
 import { Link } from 'react-router-dom';
 import AddItem from 'core/components/checklist/AddItem';
-import UnAuth from 'core/containers/unAuthPage/unAuthPage';
+import UnAuth from 'core/containers/unAuthPage';
 
 import * as actions from 'core/actions';
 
@@ -69,7 +69,7 @@ export class LandingPage extends Component {
   render() {
     return (
       <div className='LandingPage'>
-        {!this.props.currentUser.has('id') ? window.location = '/' : 
+        {!this.props.currentUser.has('id') ? window.location.pathname.includes('index.html') && <Redirect to="/" /> : 
         <div className="LandingPage__inner">
           <CheckList 
             feedback={this.props.feedback}

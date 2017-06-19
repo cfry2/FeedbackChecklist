@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckList from 'core/components/checklist/CheckList';
 import AddJob from 'core/components/jobs/AddJob';
-import UnAuth from 'core/containers/unAuthPage/unAuthPage';
+import UnAuth from 'core/containers/unAuthPage';
 import {
   Table,
   TableBody,

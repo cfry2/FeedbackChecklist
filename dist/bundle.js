@@ -44387,6 +44387,7 @@ var App = function () {
         this.history = (0, _reactRouterRedux.syncHistoryWithStore)((0, _history.createBrowserHistory)(), this.store);
         //this.history = hashHistory
         (0, _reactTapEventPlugin2.default)();
+
         this.render();
     }
 
@@ -46860,6 +46861,7 @@ var JobsPage = exports.JobsPage = function (_Component) {
             this.props.dispatch(actions.userAuthorize()).then(function (data) {
                 _this2.getUsers();
                 _this2.props.dispatch(actions.hookNotificationsListener(_this2.props.currentUser.get('name')));
+                document.title = 'Feedback Checklist - ' + _this2.props.currentUser.get('name');
             });
         }
     }, {
@@ -47043,7 +47045,6 @@ var LandingPage = exports.LandingPage = function (_Component) {
       //this.props.dispatch(actions.notifyNewFeedback(this.props.currentUser.get('name'), this.props.match.params.jobId));
       this.updateTitle();
       electron.setBadgeCount(0);
-      console.log(window.location);
     }
   }, {
     key: 'updateTitle',

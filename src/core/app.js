@@ -38,6 +38,7 @@ export default class App {
         this.history = syncHistoryWithStore(createBrowserHistory(), this.store);
         //this.history = hashHistory
         injectTapEventPlugin();
+        
         this.render();
         
     }

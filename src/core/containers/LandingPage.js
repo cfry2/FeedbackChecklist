@@ -2,9 +2,10 @@ import React, { PropTypes, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CheckList from 'core/components/checklist/CheckList';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import AddItem from 'core/components/checklist/AddItem';
 import UnAuth from 'core/containers/unAuthPage';
+const electron = window.require('electron').remote.app;
 
 import * as actions from 'core/actions';
 
@@ -33,9 +34,10 @@ export class LandingPage extends Component {
   }
 
   componentWillMount() {
-      this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
+      this.props.dispatch(actions.hookFeedBackListener(this.props.match.params.jobId));
       //this.props.dispatch(actions.notifyNewFeedback(this.props.currentUser.get('name'), this.props.match.params.jobId));
       this.updateTitle();
+      electron.setBadgeCount(0);
 
   }
   
@@ -69,7 +71,7 @@ export class LandingPage extends Component {
   render() {
     return (
       <div className='LandingPage'>
-        {!this.props.currentUser.has('id') ? window.location.pathname.includes('index.html') && <Redirect to="/" /> : 
+        {!this.props.currentUser.has('id') ? <Redirect to="/" /> : 
         <div className="LandingPage__inner">
           <CheckList 
             feedback={this.props.feedback}

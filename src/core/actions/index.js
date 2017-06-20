@@ -1,17 +1,17 @@
-export const FEEDBACK_RETRIEVE = 'FEEDBACK_RETRIEVE';
+export const FEEDBACK_UPDATE = 'FEEDBACK_UPDATE';
 export const FEEDBACK_CHANGE = 'FEEDBACK_CHANGE';
 export const FEEDBACK_ADD = 'FEEDBACK_ADD';
 export const FEEDBACK_DELETE = 'FEEDBACK_DELETE';
 export const FEEDBACK_DUMP = 'FEEDBACK_DUMP';
 
-export const JOBS_RETRIEVE = 'JOBS_RETRIEVE';
+export const JOBS_UPDATE = 'JOBS_UPDATE';
 export const JOBS_DUMP = 'JOBS_DUMP';
 export const JOBS_ADD = 'JOBS_ADD';
 export const JOBS_DELETE = 'JOBS_DELETE';
 
 export const USER_AUTHORIZE = 'USER_AUTHORIZE';
 export const USER_LOGOUT = 'USER_LOGOUT';
-export const USER_NOTIFY = 'USER_NOTIFY';
+export const USER_NOTIFY_FEEDBACK = 'USER_NOTIFY_FEEDBACK';
 
 export const GET_USERS = "GET_USERS";
 
@@ -28,7 +28,7 @@ const storage = window.require('electron-json-storage');
 export function feedbackChange(id, jobId, index, item, value) {
 
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('jobs/'+jobId+'/feedback/' + id);
         ref.update({[item] : value});
 
@@ -41,9 +41,12 @@ export function feedbackChange(id, jobId, index, item, value) {
 export function feedbackAdd(item)
 {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
-        var ref = fb.database().ref('jobs/' + item.jobId + '/feedback');
-        var pushFeedback = ref.push();
+        const fb = getFirebase();
+        var refOne = fb.database().ref('jobs/' + item.jobId + '/feedback');
+        var refTwo = fb.database().ref('notifications');
+        var pushFeedback = refOne.push();
+        var pushNotification = refTwo.push();
+
         pushFeedback.set({
             'id' : pushFeedback.key,
             'jobId' : item.jobId,
@@ -53,6 +56,12 @@ export function feedbackAdd(item)
             'completed' : false,
             'approved' : false
         });
+
+        pushNotification.set({
+            'type' : item.notificationType,
+            'user' : item.assignTo,
+            'refferer' : item.assignBy
+        })
 
         dispatch({
             type : FEEDBACK_ADD
@@ -64,7 +73,7 @@ export function feedbackAdd(item)
 export function feedbackDelete(index, id, jobId)
 {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('jobs/' + jobId + '/feedback/' + id);
 
         ref.remove()
@@ -76,15 +85,15 @@ export function feedbackDelete(index, id, jobId)
     }
 }
 
-export function feedbackRetrieve(id)
+export function hookFeedBackListener(id)
 {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('jobs/' + id + '/feedback');
         ref.on("value", function(snapshot) {
             var data = [];
             dispatch({
-                type : FEEDBACK_RETRIEVE,
+                type : FEEDBACK_UPDATE,
                 data: snapshot.val()
             });
         });
@@ -98,15 +107,15 @@ export function feedbackDump()
     }
 }
 
-export function jobsRetrieve()
+export function hookJobsListener()
 {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('jobs');
 
         ref.on("value", function(snapshot) {
                 dispatch({
-                    type : JOBS_RETRIEVE,
+                    type : JOBS_UPDATE,
                     data: snapshot.val()
                 });
         })
@@ -123,7 +132,7 @@ export function jobsDump()
 export function jobsAdd(job)
 {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('jobs');
         var pushJob = ref.push();
 
@@ -140,7 +149,7 @@ export function jobsAdd(job)
 export function jobsDelete(job)
 {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('jobs/' + job);
 
         ref.remove()
@@ -185,7 +194,7 @@ export function userAuthorize() {
 
 export function userLogout() {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         fb.logout();
         localStorage.setItem('currentUser', null)
         dispatch({
@@ -196,7 +205,7 @@ export function userLogout() {
 
 export function getUsers() {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var ref = fb.database().ref('users');
         ref.once("value")
             .then(function(snapshot) {
@@ -217,18 +226,33 @@ export function getUsers() {
     }
 }
 
-/*export function notifyNewFeedback(user, job) {
+export function hookNotificationsListener(currentUser) {
     return function(dispatch, getState, getFirebase) {
-        var fb = getFirebase();
+        const fb = getFirebase();
         var itemAdded = false;
 
-        var ref = fb.database().ref('jobs/' + job + '/feedback');
-        ref.on('child_added', function(data) {
+        var ref = fb.database().ref('notifications');
+        ref.on('child_added', function(snapshot) {
             if (!itemAdded) { 
-                //return
+                return;
             }
             else {
-                console.log(data.val());
+                var data = snapshot.val();
+                if(data.user === currentUser && data.refferer !== currentUser)
+                {
+                    switch(data.type) {
+                        case 'FEEDBACK_ADD':
+                            dispatch({
+                                type : USER_NOTIFY_FEEDBACK,
+                                payload : data
+                            });
+                            break;
+
+                        default:
+                            break;
+
+                    }
+                }
             }
             
         });
@@ -237,12 +261,10 @@ export function getUsers() {
             itemAdded = true;
         })
 
-        dispatch({
-            type : USER_NOTIFY
-        });
+
 
     }
-}*/
+}
 
 export function updateTitle(title)
 {

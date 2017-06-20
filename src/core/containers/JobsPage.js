@@ -30,7 +30,7 @@ export class JobsPage extends Component {
     } 
 
   componentWillMount() {
-      this.props.dispatch(actions.jobsRetrieve());
+      this.props.dispatch(actions.hookJobsListener());
       //this.authenticateUser();
       this.props.dispatch(actions.updateTitle('Feedback Checklist'));
       
@@ -56,6 +56,8 @@ export class JobsPage extends Component {
     this.props.dispatch(actions.userAuthorize())
         .then((data) => {
             this.getUsers();
+            this.props.dispatch(actions.hookNotificationsListener(this.props.currentUser.get('name')));
+            document.title = 'Feedback Checklist - ' + this.props.currentUser.get('name');
         });
   }
   logout() {

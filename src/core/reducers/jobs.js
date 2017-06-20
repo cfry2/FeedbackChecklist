@@ -7,7 +7,7 @@ import id from 'core/util/itemID';
 
 export default function jobs(state, action) {
 
-    if (action.type === actions.JOBS_RETRIEVE) {
+    if (action.type === actions.JOBS_UPDATE) {
         state = state.clear();
         if (action.data == null || action.data == undefined) {
             return state;

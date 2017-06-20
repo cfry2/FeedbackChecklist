@@ -1681,7 +1681,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.UPDATE_TITLE = exports.GET_USERS = exports.USER_NOTIFY = exports.USER_LOGOUT = exports.USER_AUTHORIZE = exports.JOBS_DELETE = exports.JOBS_ADD = exports.JOBS_DUMP = exports.JOBS_RETRIEVE = exports.FEEDBACK_DUMP = exports.FEEDBACK_DELETE = exports.FEEDBACK_ADD = exports.FEEDBACK_CHANGE = exports.FEEDBACK_RETRIEVE = undefined;
+exports.UPDATE_TITLE = exports.GET_USERS = exports.USER_NOTIFY_FEEDBACK = exports.USER_LOGOUT = exports.USER_AUTHORIZE = exports.JOBS_DELETE = exports.JOBS_ADD = exports.JOBS_DUMP = exports.JOBS_UPDATE = exports.FEEDBACK_DUMP = exports.FEEDBACK_DELETE = exports.FEEDBACK_ADD = exports.FEEDBACK_CHANGE = exports.FEEDBACK_UPDATE = undefined;
 
 var _stringify = __webpack_require__(292);
 
@@ -1698,15 +1698,16 @@ var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 exports.feedbackChange = feedbackChange;
 exports.feedbackAdd = feedbackAdd;
 exports.feedbackDelete = feedbackDelete;
-exports.feedbackRetrieve = feedbackRetrieve;
+exports.hookFeedBackListener = hookFeedBackListener;
 exports.feedbackDump = feedbackDump;
-exports.jobsRetrieve = jobsRetrieve;
+exports.hookJobsListener = hookJobsListener;
 exports.jobsDump = jobsDump;
 exports.jobsAdd = jobsAdd;
 exports.jobsDelete = jobsDelete;
 exports.userAuthorize = userAuthorize;
 exports.userLogout = userLogout;
 exports.getUsers = getUsers;
+exports.hookNotificationsListener = hookNotificationsListener;
 exports.updateTitle = updateTitle;
 
 var _reactReduxFirebase = __webpack_require__(236);
@@ -1717,20 +1718,20 @@ var _auth = __webpack_require__(291);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FEEDBACK_RETRIEVE = exports.FEEDBACK_RETRIEVE = 'FEEDBACK_RETRIEVE';
+var FEEDBACK_UPDATE = exports.FEEDBACK_UPDATE = 'FEEDBACK_UPDATE';
 var FEEDBACK_CHANGE = exports.FEEDBACK_CHANGE = 'FEEDBACK_CHANGE';
 var FEEDBACK_ADD = exports.FEEDBACK_ADD = 'FEEDBACK_ADD';
 var FEEDBACK_DELETE = exports.FEEDBACK_DELETE = 'FEEDBACK_DELETE';
 var FEEDBACK_DUMP = exports.FEEDBACK_DUMP = 'FEEDBACK_DUMP';
 
-var JOBS_RETRIEVE = exports.JOBS_RETRIEVE = 'JOBS_RETRIEVE';
+var JOBS_UPDATE = exports.JOBS_UPDATE = 'JOBS_UPDATE';
 var JOBS_DUMP = exports.JOBS_DUMP = 'JOBS_DUMP';
 var JOBS_ADD = exports.JOBS_ADD = 'JOBS_ADD';
 var JOBS_DELETE = exports.JOBS_DELETE = 'JOBS_DELETE';
 
 var USER_AUTHORIZE = exports.USER_AUTHORIZE = 'USER_AUTHORIZE';
 var USER_LOGOUT = exports.USER_LOGOUT = 'USER_LOGOUT';
-var USER_NOTIFY = exports.USER_NOTIFY = 'USER_NOTIFY';
+var USER_NOTIFY_FEEDBACK = exports.USER_NOTIFY_FEEDBACK = 'USER_NOTIFY_FEEDBACK';
 
 var GET_USERS = exports.GET_USERS = "GET_USERS";
 
@@ -1754,8 +1755,11 @@ function feedbackChange(id, jobId, index, item, value) {
 function feedbackAdd(item) {
     return function (dispatch, getState, getFirebase) {
         var fb = getFirebase();
-        var ref = fb.database().ref('jobs/' + item.jobId + '/feedback');
-        var pushFeedback = ref.push();
+        var refOne = fb.database().ref('jobs/' + item.jobId + '/feedback');
+        var refTwo = fb.database().ref('notifications');
+        var pushFeedback = refOne.push();
+        var pushNotification = refTwo.push();
+
         pushFeedback.set({
             'id': pushFeedback.key,
             'jobId': item.jobId,
@@ -1764,6 +1768,12 @@ function feedbackAdd(item) {
             'assignedBy': item.assignBy,
             'completed': false,
             'approved': false
+        });
+
+        pushNotification.set({
+            'type': item.notificationType,
+            'user': item.assignTo,
+            'refferer': item.assignBy
         });
 
         dispatch({
@@ -1785,14 +1795,14 @@ function feedbackDelete(index, id, jobId) {
     };
 }
 
-function feedbackRetrieve(id) {
+function hookFeedBackListener(id) {
     return function (dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('jobs/' + id + '/feedback');
         ref.on("value", function (snapshot) {
             var data = [];
             dispatch({
-                type: FEEDBACK_RETRIEVE,
+                type: FEEDBACK_UPDATE,
                 data: snapshot.val()
             });
         });
@@ -1805,14 +1815,14 @@ function feedbackDump() {
     };
 }
 
-function jobsRetrieve() {
+function hookJobsListener() {
     return function (dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var ref = fb.database().ref('jobs');
 
         ref.on("value", function (snapshot) {
             dispatch({
-                type: JOBS_RETRIEVE,
+                type: JOBS_UPDATE,
                 data: snapshot.val()
             });
         });
@@ -1914,32 +1924,39 @@ function getUsers() {
     };
 }
 
-/*export function notifyNewFeedback(user, job) {
-    return function(dispatch, getState, getFirebase) {
+function hookNotificationsListener(currentUser) {
+    return function (dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var itemAdded = false;
 
-        var ref = fb.database().ref('jobs/' + job + '/feedback');
-        ref.on('child_added', function(data) {
-            if (!itemAdded) { 
-                //return
+        var ref = fb.database().ref('notifications');
+        ref.on('child_added', function (snapshot) {
+            if (!itemAdded) {
+                return;
+            } else {
+                var data = snapshot.val();
+                if (data.user === currentUser && data.refferer !== currentUser) {
+                    switch (data.type) {
+                        case 'FEEDBACK_ADD':
+                            dispatch({
+                                type: USER_NOTIFY_FEEDBACK,
+                                payload: data
+                            });
+                            break;
+
+                        default:
+                            break;
+
+                    }
+                }
             }
-            else {
-                console.log(data.val());
-            }
-            
         });
 
-        ref.once('value', (data) => {
+        ref.once('value', function (data) {
             itemAdded = true;
-        })
-
-        dispatch({
-            type : USER_NOTIFY
         });
-
-    }
-}*/
+    };
+}
 
 function updateTitle(title) {
     return {
@@ -18506,7 +18523,8 @@ var AddItem = function (_Component) {
                                 "feedBack": e.target.elements.feedback.value,
                                 "assignTo": _this2.state.assignTo,
                                 "assignBy": _this2.props.currentUser.get('name'),
-                                "jobId": _this2.props.jobId
+                                "jobId": _this2.props.jobId,
+                                "notificationType": "FEEDBACK_ADD"
                             });
                             e.target.elements.feedback.value = '';
                         } },
@@ -46812,7 +46830,7 @@ var JobsPage = exports.JobsPage = function (_Component) {
     (0, _createClass3.default)(JobsPage, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
-            this.props.dispatch(actions.jobsRetrieve());
+            this.props.dispatch(actions.hookJobsListener());
             //this.authenticateUser();
             this.props.dispatch(actions.updateTitle('Feedback Checklist'));
         }
@@ -46841,6 +46859,7 @@ var JobsPage = exports.JobsPage = function (_Component) {
 
             this.props.dispatch(actions.userAuthorize()).then(function (data) {
                 _this2.getUsers();
+                _this2.props.dispatch(actions.hookNotificationsListener(_this2.props.currentUser.get('name')));
             });
         }
     }, {
@@ -46983,6 +47002,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var electron = window.require('electron').remote.app;
+
 var LandingPage = exports.LandingPage = function (_Component) {
   (0, _inherits3.default)(LandingPage, _Component);
 
@@ -47018,9 +47039,11 @@ var LandingPage = exports.LandingPage = function (_Component) {
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      this.props.dispatch(actions.feedbackRetrieve(this.props.match.params.jobId));
+      this.props.dispatch(actions.hookFeedBackListener(this.props.match.params.jobId));
       //this.props.dispatch(actions.notifyNewFeedback(this.props.currentUser.get('name'), this.props.match.params.jobId));
       this.updateTitle();
+      electron.setBadgeCount(0);
+      console.log(window.location);
     }
   }, {
     key: 'updateTitle',
@@ -47061,7 +47084,7 @@ var LandingPage = exports.LandingPage = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'LandingPage' },
-        !this.props.currentUser.has('id') ? window.location.pathname.includes('index.html') && _react2.default.createElement(Redirect, { to: '/' }) : _react2.default.createElement(
+        !this.props.currentUser.has('id') ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(
           'div',
           { className: 'LandingPage__inner' },
           _react2.default.createElement(_CheckList2.default, {
@@ -47118,6 +47141,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+var electron = window.require('electron').remote.app;
+
 function currentUser(state, action) {
 
     if (action.type === actions.USER_AUTHORIZE) {
@@ -47131,7 +47156,15 @@ function currentUser(state, action) {
         return state.clear();
     }
 
-    if (action.type === actions.USER_NOTIFY) {
+    if (action.type === actions.USER_NOTIFY_FEEDBACK) {
+        if (window.location.pathname.indexOf('/job/') === -1 || !document.hasFocus()) {
+            var count = electron.getBadgeCount();
+            count++;
+            electron.setBadgeCount(count);
+            var newFeedbackNotification = new Notification('New feedback', {
+                body: action.payload.refferer + ' assigned some feedback to you.'
+            });
+        }
         return state;
     }
 
@@ -47173,7 +47206,7 @@ function feedback(state, action) {
         return state;
     }
 
-    if (action.type === actions.FEEDBACK_RETRIEVE) {
+    if (action.type === actions.FEEDBACK_UPDATE) {
         state = state.clear();
         if (action.data == null || action.data == undefined) {
             return state;
@@ -47303,7 +47336,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function jobs(state, action) {
 
-    if (action.type === actions.JOBS_RETRIEVE) {
+    if (action.type === actions.JOBS_UPDATE) {
         state = state.clear();
         if (action.data == null || action.data == undefined) {
             return state;

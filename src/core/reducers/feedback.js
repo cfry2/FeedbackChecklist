@@ -9,7 +9,7 @@ export default function feedback(state, action) {
         return state;
     }
 
-    if (action.type === actions.FEEDBACK_RETRIEVE) {
+    if (action.type === actions.FEEDBACK_UPDATE) {
         state = state.clear();
         if (action.data == null || action.data == undefined) {
             return state;

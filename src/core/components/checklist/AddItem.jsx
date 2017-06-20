@@ -28,7 +28,8 @@ export default class AddItem extends Component {
                             "feedBack" : e.target.elements.feedback.value,
                             "assignTo" : this.state.assignTo,
                             "assignBy" : this.props.currentUser.get('name'),
-                            "jobId" : this.props.jobId
+                            "jobId" : this.props.jobId,
+                            "notificationType" : "FEEDBACK_ADD"
                         }
                     );
                     e.target.elements.feedback.value = '';

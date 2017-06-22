@@ -1756,7 +1756,7 @@ function feedbackAdd(item) {
     return function (dispatch, getState, getFirebase) {
         var fb = getFirebase();
         var refOne = fb.database().ref('jobs/' + item.jobId + '/feedback');
-        var refTwo = fb.database().ref('notifications');
+        var refTwo = fb.database().ref('users/' + item.userId + '/notifications');
         var pushFeedback = refOne.push();
         var pushNotification = refTwo.push();
 
@@ -1773,7 +1773,8 @@ function feedbackAdd(item) {
         pushNotification.set({
             'type': item.notificationType,
             'user': item.assignTo,
-            'refferer': item.assignBy
+            'refferer': item.assignBy,
+            'job': item.jobId
         });
 
         dispatch({
@@ -1913,7 +1914,7 @@ function getUsers() {
                 newUser = null;
             } else {
                 newUser = getState().currentUser;
-                ref.child(getState().currentUser.get('id')).set(getState().currentUser.get('name'));
+                ref.child(getState().currentUser.get('id')).set({ "name": getState().currentUser.get('name') });
             }
             dispatch({
                 type: GET_USERS,
@@ -18500,7 +18501,8 @@ var AddItem = function (_Component) {
         var _this = (0, _possibleConstructorReturn3.default)(this, (AddItem.__proto__ || (0, _getPrototypeOf2.default)(AddItem)).call(this, props));
 
         _this.state = {
-            'assignTo': _this.props.currentUser.get('name')
+            'assignTo': _this.props.currentUser.get('name'),
+            'userId': _this.props.currentUser.get('id')
         };
 
         return _this;
@@ -18524,6 +18526,7 @@ var AddItem = function (_Component) {
                                 "assignTo": _this2.state.assignTo,
                                 "assignBy": _this2.props.currentUser.get('name'),
                                 "jobId": _this2.props.jobId,
+                                "userId": _this2.state.userId,
                                 "notificationType": "FEEDBACK_ADD"
                             });
                             e.target.elements.feedback.value = '';
@@ -18545,11 +18548,12 @@ var AddItem = function (_Component) {
                                     id: 'select',
                                     value: this.state.assignTo,
                                     onChange: function onChange(e, key, payload) {
-                                        _this2.setState({ assignTo: payload });
+                                        _this2.setState({ assignTo: payload.name });
+                                        _this2.setState({ userId: payload.userId });
                                     }
                                 },
                                 this.props.users.map(function (user, index) {
-                                    return _react2.default.createElement(_MenuItem2.default, { key: index, value: user.get('name'), primaryText: user.get('name') });
+                                    return _react2.default.createElement(_MenuItem2.default, { key: index, value: { 'name': user.get('name'), 'userId': user.get('id') }, primaryText: user.get('name') });
                                 })
                             ),
                             _react2.default.createElement(_Toolbar.ToolbarSeparator, null),
@@ -47448,7 +47452,7 @@ function users(state, action) {
         var transformed = (0, _keys2.default)(action.data).map(function (key) {
             return {
                 id: key,
-                name: action.data[key]
+                name: action.data[key].name
             };
         });
         var usersObject = (0, _immutable.fromJS)(transformed);

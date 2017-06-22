@@ -11,7 +11,7 @@ export default function users(state, action) {
         let transformed = Object.keys(action.data).map((key) => (
             {
                 id: key,
-                name: action.data[key]
+                name: action.data[key].name
             }
         ))
         var usersObject = fromJS(transformed);

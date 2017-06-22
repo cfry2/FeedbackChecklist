@@ -43,7 +43,7 @@ export function feedbackAdd(item)
     return function(dispatch, getState, getFirebase) {
         const fb = getFirebase();
         var refOne = fb.database().ref('jobs/' + item.jobId + '/feedback');
-        var refTwo = fb.database().ref('notifications');
+        var refTwo = fb.database().ref('users/' + item.userId + '/notifications');
         var pushFeedback = refOne.push();
         var pushNotification = refTwo.push();
 
@@ -56,11 +56,12 @@ export function feedbackAdd(item)
             'completed' : false,
             'approved' : false
         });
-
+        
         pushNotification.set({
             'type' : item.notificationType,
             'user' : item.assignTo,
-            'refferer' : item.assignBy
+            'refferer' : item.assignBy,
+            'job' : item.jobId
         })
 
         dispatch({
@@ -215,7 +216,7 @@ export function getUsers() {
                 }
                 else {
                     newUser = getState().currentUser;
-                    ref.child(getState().currentUser.get('id')).set(getState().currentUser.get('name'));
+                    ref.child(getState().currentUser.get('id')).set({"name" : getState().currentUser.get('name')});
                 }
                 dispatch({
                     type : GET_USERS,

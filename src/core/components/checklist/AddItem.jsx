@@ -12,7 +12,8 @@ export default class AddItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            'assignTo' : this.props.currentUser.get('name')
+            'assignTo' : this.props.currentUser.get('name'),
+            'userId' : this.props.currentUser.get('id')
         };
 
     }
@@ -29,6 +30,7 @@ export default class AddItem extends Component {
                             "assignTo" : this.state.assignTo,
                             "assignBy" : this.props.currentUser.get('name'),
                             "jobId" : this.props.jobId,
+                            "userId" : this.state.userId,
                             "notificationType" : "FEEDBACK_ADD"
                         }
                     );
@@ -45,11 +47,14 @@ export default class AddItem extends Component {
                                 name="select"
                                 id="select"
                                 value={this.state.assignTo}
-                                onChange={(e, key, payload)=>{this.setState({assignTo : payload});}}
+                                onChange={(e, key, payload) => {
+                                    this.setState({assignTo : payload.name}); 
+                                    this.setState({userId : payload.userId});
+                                    }}
                             >
                                 {
                                     this.props.users.map((user, index) => (
-                                        <MenuItem key={index} value={user.get('name')} primaryText={user.get('name')} />      
+                                        <MenuItem key={index} value={{'name' : user.get('name'), 'userId' : user.get('id')}} primaryText={user.get('name')} />      
                                     ))
                                 }
                             </SelectField>

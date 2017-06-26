@@ -56,7 +56,7 @@ export class JobsPage extends Component {
     this.props.dispatch(actions.userAuthorize())
         .then((data) => {
             this.getUsers();
-            this.props.dispatch(actions.hookNotificationsListener(this.props.currentUser.get('name')));
+            this.props.dispatch(actions.hookUserNotificationsListener(this.props.currentUser.get('id')));
             document.title = 'Feedback Checklist - ' + this.props.currentUser.get('name');
         });
   }

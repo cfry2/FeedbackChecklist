@@ -46,15 +46,16 @@ export default class AddItem extends Component {
                             <SelectField
                                 name="select"
                                 id="select"
-                                value={this.state.assignTo}
+                                value={this.state.userId}
                                 onChange={(e, key, payload) => {
-                                    this.setState({assignTo : payload.name}); 
-                                    this.setState({userId : payload.userId});
+                                   let assignee = this.props.users.find((user) => user.get('id') === payload);
+                                    this.setState({assignTo : assignee.get('name')}); 
+                                    this.setState({userId : assignee.get('id')});
                                     }}
                             >
                                 {
                                     this.props.users.map((user, index) => (
-                                        <MenuItem key={index} value={{'name' : user.get('name'), 'userId' : user.get('id')}} primaryText={user.get('name')} />      
+                                        <MenuItem key={index} value={user.get('id')} primaryText={user.get('name')} />      
                                     ))
                                 }
                             </SelectField>

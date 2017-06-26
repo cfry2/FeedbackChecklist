@@ -34,10 +34,10 @@ export class LandingPage extends Component {
   }
 
   componentWillMount() {
+    
       this.props.dispatch(actions.hookFeedBackListener(this.props.match.params.jobId));
-      //this.props.dispatch(actions.notifyNewFeedback(this.props.currentUser.get('name'), this.props.match.params.jobId));
+      this.props.dispatch(actions.removeUserNotifications(this.props.match.params.jobId, this.props.currentUser.get('id')));
       this.updateTitle();
-      electron.setBadgeCount(0);
 
   }
   

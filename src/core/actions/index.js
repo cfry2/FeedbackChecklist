@@ -11,11 +11,14 @@ export const JOBS_DELETE = 'JOBS_DELETE';
 
 export const USER_AUTHORIZE = 'USER_AUTHORIZE';
 export const USER_LOGOUT = 'USER_LOGOUT';
-export const USER_NOTIFY_FEEDBACK = 'USER_NOTIFY_FEEDBACK';
 
 export const GET_USERS = "GET_USERS";
 
 export const UPDATE_TITLE = "UPDATE_TITLE";
+
+export const USER_NOTIFICATIONS_UPDATE = 'NOTIFICATIONS_UPDATE';
+export const USER_NOTIFICATIONS_FEEDBACK_ADD = 'USER_NOTIFICATIONS_FEEDBACK_ADD';
+export const USER_NOTIFICATIONS_REMOVE = 'USER_NOTIFICATIONS_REMOVE';
 
 
 import { pathToJS, getFirebase } from 'react-redux-firebase';
@@ -227,32 +230,35 @@ export function getUsers() {
     }
 }
 
-export function hookNotificationsListener(currentUser) {
+export function hookUserNotificationsListener(id) {
     return function(dispatch, getState, getFirebase) {
         const fb = getFirebase();
         var itemAdded = false;
 
-        var ref = fb.database().ref('notifications');
+        var ref = fb.database().ref('users/' + id + '/notifications');
         ref.on('child_added', function(snapshot) {
-            if (!itemAdded) { 
+            if (!itemAdded) {
+                dispatch({
+                    type : USER_NOTIFICATIONS_UPDATE,
+                    payload : snapshot.val(),
+                    key : snapshot.key
+                });
                 return;
             }
             else {
                 var data = snapshot.val();
-                if(data.user === currentUser && data.refferer !== currentUser)
-                {
-                    switch(data.type) {
-                        case 'FEEDBACK_ADD':
-                            dispatch({
-                                type : USER_NOTIFY_FEEDBACK,
-                                payload : data
-                            });
-                            break;
+                switch(data.type) {
+                    case 'FEEDBACK_ADD':
+                        dispatch({
+                            type : USER_NOTIFICATIONS_FEEDBACK_ADD,
+                            payload : data,
+                            key : snapshot.key
+                        });
+                        break;
 
-                        default:
-                            break;
+                    default:
+                        break;
 
-                    }
                 }
             }
             
@@ -263,6 +269,31 @@ export function hookNotificationsListener(currentUser) {
         })
 
 
+
+    }
+}
+
+export function removeUserNotifications(jobId, userId) {
+    return function(dispatch, getState, getFirebase) {
+        const fb = getFirebase();
+        var itemAdded = false;
+
+        var ref = fb.database().ref('users/' + userId + '/notifications');
+        ref.orderByChild('job').equalTo(jobId).once('value', function(snapshot) {
+            let data = snapshot.val();
+
+            dispatch({
+                type : USER_NOTIFICATIONS_REMOVE,
+                key : jobId
+            });
+            if (data != null || data != undefined) {
+                Object.keys(data).map((key) => {
+                    let ref = fb.database().ref('users/' + userId + '/notifications/' + key);
+                    ref.remove();
+                });
+            }
+
+        });
 
     }
 }

@@ -1029,7 +1029,15 @@ function feedbackAdd(item) {
         var refOne = fb.database().ref('jobs/' + item.jobId + '/feedback');
         var refTwo = fb.database().ref('users/' + item.userId + '/notifications');
         var pushFeedback = refOne.push();
-        var pushNotification = refTwo.push();
+        if (item.userId !== getState().currentUser.get('id')) {
+            var pushNotification = refTwo.push();
+            pushNotification.set({
+                'type': item.notificationType,
+                'user': item.assignTo,
+                'refferer': item.assignBy,
+                'job': item.jobId
+            });
+        }
 
         pushFeedback.set({
             'id': pushFeedback.key,
@@ -1039,13 +1047,6 @@ function feedbackAdd(item) {
             'assignedBy': item.assignBy,
             'completed': false,
             'approved': false
-        });
-
-        pushNotification.set({
-            'type': item.notificationType,
-            'user': item.assignTo,
-            'refferer': item.assignBy,
-            'job': item.jobId
         });
 
         dispatch({
@@ -47062,6 +47063,7 @@ var LandingPage = exports.LandingPage = function (_Component) {
     _this.addItem = _this.addItem.bind(_this);
     _this.getUsers = _this.getUsers.bind(_this);
     _this.updateTitle = _this.updateTitle.bind(_this);
+    _this.removeUserNotifications = _this.removeUserNotifications.bind(_this);
     return _this;
   }
 
@@ -47081,11 +47083,16 @@ var LandingPage = exports.LandingPage = function (_Component) {
       this.props.dispatch(actions.feedbackAdd(item));
     }
   }, {
+    key: 'removeUserNotifications',
+    value: function removeUserNotifications() {
+      this.props.dispatch(actions.removeUserNotifications(this.props.match.params.jobId, this.props.currentUser.get('id')));
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
 
       this.props.dispatch(actions.hookFeedBackListener(this.props.match.params.jobId));
-      this.props.dispatch(actions.removeUserNotifications(this.props.match.params.jobId, this.props.currentUser.get('id')));
+      this.removeUserNotifications();
       this.updateTitle();
     }
   }, {
@@ -47126,7 +47133,7 @@ var LandingPage = exports.LandingPage = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'LandingPage' },
+        { className: 'LandingPage', onClick: this.removeUserNotifications },
         !this.props.currentUser.has('id') ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(
           'div',
           { className: 'LandingPage__inner' },
@@ -47426,16 +47433,15 @@ var electron = window.require('electron').remote.app;
 function userNotifications(state, action) {
     var badgeCount = state.size;
     electron.setBadgeCount(badgeCount);
+    console.log(badgeCount);
 
     if (action.type === actions.USER_NOTIFICATIONS_UPDATE) {
-        state = state.clear();
         var userNotificationsObject = (0, _immutable.fromJS)(action.payload);
         userNotificationsObject = userNotificationsObject.set('key', action.key);
         return state.push(userNotificationsObject);
     }
 
     if (action.type === actions.USER_NOTIFICATIONS_REMOVE) {
-        console.log(action.key);
         state = state.filterNot(function (notification) {
             return notification.get('job') === action.key;
         });

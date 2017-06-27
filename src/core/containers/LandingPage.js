@@ -20,6 +20,7 @@ export class LandingPage extends Component {
         this.addItem = this.addItem.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.updateTitle = this.updateTitle.bind(this);
+        this.removeUserNotifications = this.removeUserNotifications.bind(this);
     } 
   handleChange(id, jobId, index, item, value) {
     this.props.dispatch(actions.feedbackChange(id, jobId, index, item, value));
@@ -33,10 +34,14 @@ export class LandingPage extends Component {
     this.props.dispatch(actions.feedbackAdd(item));
   }
 
+  removeUserNotifications() {
+          this.props.dispatch(actions.removeUserNotifications(this.props.match.params.jobId, this.props.currentUser.get('id')));
+  }
+
   componentWillMount() {
     
       this.props.dispatch(actions.hookFeedBackListener(this.props.match.params.jobId));
-      this.props.dispatch(actions.removeUserNotifications(this.props.match.params.jobId, this.props.currentUser.get('id')));
+      this.removeUserNotifications();
       this.updateTitle();
 
   }
@@ -70,7 +75,7 @@ export class LandingPage extends Component {
 
   render() {
     return (
-      <div className='LandingPage'>
+      <div className='LandingPage' onClick={this.removeUserNotifications}>
         {!this.props.currentUser.has('id') ? <Redirect to="/" /> : 
         <div className="LandingPage__inner">
           <CheckList 

@@ -48,7 +48,15 @@ export function feedbackAdd(item)
         var refOne = fb.database().ref('jobs/' + item.jobId + '/feedback');
         var refTwo = fb.database().ref('users/' + item.userId + '/notifications');
         var pushFeedback = refOne.push();
-        var pushNotification = refTwo.push();
+        if (item.userId !== getState().currentUser.get('id')) {
+            var pushNotification = refTwo.push();
+            pushNotification.set({
+                'type' : item.notificationType,
+                'user' : item.assignTo,
+                'refferer' : item.assignBy,
+                'job' : item.jobId
+            })
+        }
 
         pushFeedback.set({
             'id' : pushFeedback.key,
@@ -59,13 +67,7 @@ export function feedbackAdd(item)
             'completed' : false,
             'approved' : false
         });
-        
-        pushNotification.set({
-            'type' : item.notificationType,
-            'user' : item.assignTo,
-            'refferer' : item.assignBy,
-            'job' : item.jobId
-        })
+    
 
         dispatch({
             type : FEEDBACK_ADD

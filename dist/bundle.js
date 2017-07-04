@@ -1185,6 +1185,7 @@ function getUsers() {
             if (getState().currentUser.get('id') in snapshot.val()) {
                 newUser = null;
             } else {
+                console.log('new user');
                 newUser = getState().currentUser;
                 ref.child(getState().currentUser.get('id')).set({ "name": getState().currentUser.get('name') });
             }
@@ -47433,7 +47434,6 @@ var electron = window.require('electron').remote.app;
 function userNotifications(state, action) {
     var badgeCount = state.size;
     electron.setBadgeCount(badgeCount);
-    console.log(badgeCount);
 
     if (action.type === actions.USER_NOTIFICATIONS_UPDATE) {
         var userNotificationsObject = (0, _immutable.fromJS)(action.payload);
@@ -47548,8 +47548,9 @@ function users(state, action) {
             };
         });
         var usersObject = (0, _immutable.fromJS)(transformed);
-        if (actions.newUser != null) {
-            usersObject.concat((0, _immutable.fromJS)(actions.newUser));
+        if (action.newUser != null) {
+            console.log('new user');
+            usersObject = usersObject.push((0, _immutable.fromJS)(action.newUser));
         }
 
         return state.concat(usersObject);

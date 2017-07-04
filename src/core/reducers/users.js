@@ -15,8 +15,8 @@ export default function users(state, action) {
             }
         ))
         var usersObject = fromJS(transformed);
-        if (actions.newUser != null) {
-            usersObject.concat(fromJS(actions.newUser))
+        if (action.newUser != null) {
+            usersObject = usersObject.push(fromJS(action.newUser))
         }
         
         return state.concat(usersObject);

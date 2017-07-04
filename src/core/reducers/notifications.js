@@ -5,7 +5,6 @@ const electron = window.require('electron').remote.app;
 export default function userNotifications(state, action) {
     var badgeCount = state.size;
     electron.setBadgeCount(badgeCount);
-    console.log(badgeCount);
 
     if (action.type === actions.USER_NOTIFICATIONS_UPDATE) {
         let userNotificationsObject = fromJS(action.payload);

@@ -6,6 +6,13 @@ const Dotenv = require('dotenv-webpack');
 const WebpackAutoInject = require('webpack-auto-inject-version');
 
 //var dev = process.argv[1] && process.argv[1].indexOf('webpack-dev-server') !== -1;
+var dev;
+if(process.env.NODE_ENV == "development") {
+    dev = true;
+}
+else {
+    dev = false;
+}
 var dev = true;
 let options = {
     entry : './src/index.js',

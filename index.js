@@ -20,7 +20,10 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  if(process.env.NODE_ENV == "development") {
+    win.webContents.openDevTools();
+  }
+ 
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -37,8 +40,8 @@ function createWindow () {
   ** This code only needs to run once so you can recomment once electron has been built
   */ 
 
-  //BrowserWindow.addDevToolsExtension('~/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.3.3_0');
-  //BrowserWindow.addDevToolsExtension('~/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.15.1_0');  
+  //BrowserWindow.addDevToolsExtension('/Users/cameron.fry/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.5.0_0');
+  //BrowserWindow.addDevToolsExtension('/Users/cameron.fry/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.15.1_0');  
 }
 
 // This method will be called when Electron has finished

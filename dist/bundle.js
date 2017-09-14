@@ -1185,7 +1185,6 @@ function getUsers() {
             if (getState().currentUser.get('id') in snapshot.val()) {
                 newUser = null;
             } else {
-                console.log('new user');
                 newUser = getState().currentUser;
                 ref.child(getState().currentUser.get('id')).set({ "name": getState().currentUser.get('name') });
             }
@@ -47549,7 +47548,6 @@ function users(state, action) {
         });
         var usersObject = (0, _immutable.fromJS)(transformed);
         if (action.newUser != null) {
-            console.log('new user');
             usersObject = usersObject.push((0, _immutable.fromJS)(action.newUser));
         }
 
